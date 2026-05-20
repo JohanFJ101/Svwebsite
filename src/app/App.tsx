@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import HackathonPage from "./pages/HackathonPage";
 import OfficersPage from "./pages/OfficersPage";
+import GalleryPage from "./pages/GalleryPage";
 
 const bodyFont = { fontFamily: "'Inter', sans-serif" };
 
@@ -32,6 +33,9 @@ export default function App() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else if (label === "Officers") {
       navigate("/officers");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (label === "Gallery") {
+      navigate("/gallery");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
@@ -100,6 +104,7 @@ export default function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/hackathon" element={<HackathonPage />} />
           <Route path="/officers" element={<OfficersPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
         </Routes>
 
         {/* FOOTER */}
