@@ -1,9 +1,4 @@
-
-  # SVwebsite
-
-  This is a code bundle for SVwebsite. The original project is available at https://www.figma.com/design/7RpPVyx3NBM1CAc2XtQ3PX/SVwebsite.
-
-  ## Running the code
+Clone the github repo - `git clone https://github.com/JohanFJ101/Svwebsite'
 
   Run `npm i` to install the dependencies.
 
