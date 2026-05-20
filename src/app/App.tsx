@@ -75,7 +75,7 @@ export default function App() {
             <img
               src={heroVillage}
               alt="Village illustration"
-              className="w-full h-full object-cover object-left-top mx-[3px] my-[-3px]"
+              className="w-full h-full object-cover object-left-top mx-[3px] my-[-8px]"
               style={{
                 mixBlendMode: "screen",
                 filter: "brightness(0.9) contrast(1.1) saturate(1.1)",
@@ -85,6 +85,13 @@ export default function App() {
 
           {/* Right: text content */}
           <div className="relative flex flex-col justify-start w-full md:w-[65%] md:-ml-[15%] px-8 md:pl-12 lg:pl-16 md:pr-14 lg:pr-20 pt-48 pb-8 z-10">
+            <div className="ml-16 px-[178px] mb-4">
+              <button className="group inline-flex items-center justify-between gap-4 rounded-full border border-[#ea5e28]/40 hover:border-[#ea5e28] bg-[#ea5e28]/10 hover:bg-[#ea5e28]/20 transition-colors px-8 py-4 text-white w-full">
+                <span className="text-base font-semibold tracking-wide">We are hiring — Apply today</span>
+                <ArrowUpRight className="h-5 w-5 text-[#ea5e28] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 flex-shrink-0" />
+              </button>
+            </div>
+
             <h1
               className="text-[clamp(42px,7vw,120px)] leading-[0.9] uppercase px-[0px] py-[88px] mx-[77px] my-[0px]"
               style={headingFont}
@@ -96,115 +103,39 @@ export default function App() {
               a Village
             </h1>
 
-            
-
-            <div className="mt-10 flex flex-wrap gap-4">
-              <button className="group inline-flex items-center gap-3 rounded-full bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors py-3.5 text-sm text-black font-semibold px-[32px] py-[5px] mx-[139px] my-[-23px]">Who are we?</button>
-              
+            <div className="flex flex-col gap-4 ml-16 -mt-6 px-[178px] py-[0px]">
+              <div className="flex flex-wrap gap-4">
+                <button className="group inline-flex items-center gap-3 rounded-full bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors px-7 py-3.5 text-sm text-black font-semibold">
+                  Who are we?
+                </button>
+                <button className="group inline-flex items-center gap-3 rounded-full border border-neutral-700 hover:border-[#ea5e28] hover:text-[#ea5e28] transition-colors px-7 py-3.5 text-sm text-white">
+                  Upcoming Events
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </button>
+              </div>
             </div>
           </div>
         </section>
 
         {/* ABOUT */}
         <section className="relative mx-auto max-w-7xl px-6 md:px-10 lg:px-14 pb-32">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-            <div>
-              <h2 className="text-[clamp(36px,5vw,72px)] uppercase leading-none" style={headingFont}>
-                <span className="text-[#ea5e28]" style={{ fontStyle: "italic" }}>A</span>bout
-              </h2>
-              <p className="mt-8 max-w-md text-neutral-400 leading-relaxed">
-                We are a forward-thinking web development company dedicated to transforming your
-                digital vision into reality. With a focus on creativity and innovation, we
-                specialise in creating bespoke websites that captivate audiences and drive results.
-                Whether you're a startup or an established business, we're here to elevate your
-                online presence and help you succeed in the digital world.
-              </p>
-              <button className="mt-8 inline-flex items-center gap-2 text-sm text-[#ea5e28] hover:text-white transition-colors">
-                More
-                <ArrowRight className="h-4 w-4" />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-3 gap-6 md:mt-8">
-              {stats.map((s) => (
-                <div key={s.label} className="flex flex-col">
-                  <div
-                    className="text-[clamp(32px,4.5vw,56px)] leading-none text-[#ea5e28]"
-                    style={headingFont}
-                  >
-                    {s.value}
-                  </div>
-                  <div className="mt-3 text-xs uppercase tracking-widest text-neutral-500">
-                    {s.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* SERVICES */}
-        <section className="relative mx-auto max-w-7xl px-6 md:px-10 lg:px-14 pb-32">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-            <div className="max-w-2xl">
-              <h2 className="text-[clamp(36px,5vw,72px)] uppercase leading-none" style={headingFont}>
-                <span className="text-[#ea5e28]" style={{ fontStyle: "italic" }}>O</span>ur Services
-              </h2>
-              <p className="mt-6 text-neutral-400 max-w-lg leading-relaxed">
-                Explore our array of services, from web development to e-commerce solutions,
-                designed to elevate your online presence and drive success in the digital landscape.
-              </p>
-            </div>
-            <button className="group inline-flex items-center gap-2 self-start rounded-full bg-white text-black hover:bg-[#ea5e28] hover:text-black transition-colors px-5 py-2.5 text-sm">
-              Contact us
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </button>
-          </div>
-
-          <div className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-5">
-            {services.map(({ icon: Icon, title, desc }) => (
-              <div
-                key={title}
-                className="group relative rounded-2xl border border-neutral-800 bg-neutral-950/60 backdrop-blur-sm p-8 hover:border-[#ea5e28]/60 transition-colors"
-              >
-                <div className="flex items-center justify-center h-12 w-12 rounded-full border border-neutral-700 group-hover:border-[#ea5e28] group-hover:text-[#ea5e28] transition-colors">
-                  <Icon className="h-5 w-5" />
-                </div>
-                <h3 className="mt-8 uppercase tracking-wide text-white" style={headingFont}>
-                  {title}
-                </h3>
-                <p className="mt-3 text-sm text-neutral-400 leading-relaxed">{desc}</p>
-                <ArrowUpRight className="absolute top-8 right-8 h-5 w-5 text-neutral-600 group-hover:text-[#ea5e28] transition-colors" />
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* SPECIAL OFFER */}
-        <section className="relative mx-auto max-w-7xl px-6 md:px-10 lg:px-14 pb-32">
-          <div className="relative overflow-hidden rounded-3xl border border-neutral-800 bg-gradient-to-br from-neutral-950 via-black to-neutral-950 px-8 py-16 md:py-24 text-center">
-            <div className="pointer-events-none absolute inset-0 opacity-60">
-              <div className="absolute -top-20 left-1/2 -translate-x-1/2 h-72 w-72 rounded-full bg-[#ea5e28]/30 blur-3xl" />
-            </div>
-            <h2
-              className="relative text-[clamp(36px,7vw,96px)] uppercase leading-[0.9]"
-              style={headingFont}
-            >
-              Special Offer
-              <br />
-              For <span className="text-[#ea5e28]" style={{ fontStyle: "italic" }}>New</span> Clients
+          <div className="max-w-3xl">
+            <h2 className="text-[clamp(36px,5vw,72px)] uppercase leading-none" style={headingFont}>
+              <span className="text-[#ea5e28]" style={{ fontStyle: "italic" }}>W</span>ho are we?
             </h2>
-            <p className="relative mt-8 mx-auto max-w-xl text-neutral-400 leading-relaxed">
-              We're excited to offer a special discount on our comprehensive e-commerce website
-              packages. Elevate your online store with our expert solutions tailored to your needs,
-              and let's embark on a journey to digital success together.
+            <p className="mt-8 text-neutral-400 leading-relaxed">
+              We are a student-run organisation built on ambition, creativity, and a belief that
+              every great empire begins somewhere small. Founded by a group of driven individuals
+              who wanted to bridge the gap between academic learning and real-world impact, we
+              bring together students from all disciplines to collaborate, build, and grow together.
+              From grassroots initiatives to large-scale events, we create opportunities for our
+              members to develop leadership skills, expand their networks, and leave a lasting mark
+              on their community. Whether you are here to lead, create, or simply find your people —
+              you have found the right place.
             </p>
-            <button className="relative mt-10 group inline-flex items-center gap-2 rounded-full bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors px-6 py-3 text-sm text-black">
-              Get started
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </button>
           </div>
         </section>
+
 
         {/* FOOTER */}
         <footer className="relative mx-auto max-w-7xl px-6 md:px-10 lg:px-14 pb-12">
