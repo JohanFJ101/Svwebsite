@@ -8,6 +8,7 @@ import {
 import { useNavigate } from "react-router";
 import { motion } from "motion/react";
 import heroVillage from "../../imports/Finalized.png";
+import { StarDestroyer } from "../components/StarDestroyer";
 
 const headingFont = {
   fontFamily: "'Cormorant Garamond', Georgia, serif",
@@ -54,6 +55,9 @@ export default function HomePage() {
             }}
           />
         </motion.div>
+
+        {/* Star Destroyer flyover */}
+        <StarDestroyer />
 
         {/* Right: text content — staggered children */}
         <div className="relative z-10 mx-auto flex w-full max-w-[760px] flex-col items-start gap-8 px-6 md:mx-0 md:gap-10 md:px-10 lg:px-14">
