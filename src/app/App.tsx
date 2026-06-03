@@ -1,18 +1,23 @@
-import { ArrowUpRight, Zap, Calendar, Image, Users, Info } from "lucide-react";
+import { ArrowUpRight, Zap, Calendar, Image, Users, Info, Menu, X } from "lucide-react";
+import { useState } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router";
 import { BackgroundContours } from "./components/BackgroundContours";
 import { Logo } from "./components/Logo";
+import { LoginModal } from "./components/LoginModal";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import HackathonPage from "./pages/HackathonPage";
 import OfficersPage from "./pages/OfficersPage";
 import GalleryPage from "./pages/GalleryPage";
+import AdminPage from "./pages/AdminPage";
 
 const bodyFont = { fontFamily: "'Inter', sans-serif" };
 
 export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollToEvents = () => {
     if (location.pathname !== "/") {
@@ -60,8 +65,8 @@ export default function App() {
         >
           <nav className="flex items-center w-full mx-auto">
             <div
-              onClick={() => { navigate("/"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-              className="cursor-pointer"
+              onClick={() => { navigate("/"); window.scrollTo({ top: 0, behavior: "smooth" }); setMobileMenuOpen(false); }}
+              className="cursor-pointer shrink-0"
             >
               <Logo className="h-7 w-auto" />
             </div>
@@ -82,7 +87,9 @@ export default function App() {
                 </li>
               ))}
             </ul>
-            <div className="flex items-center gap-3 ml-auto">
+
+            {/* Desktop action buttons */}
+            <div className="hidden md:flex items-center gap-3 ml-auto">
               <button
                 onClick={() => { navigate("/hackathon"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
                 className="group flex items-center gap-2 rounded-full border-2 border-[#ea5e28] bg-[#ea5e28]/10 hover:bg-[#ea5e28] transition-colors px-5 py-2.5 text-sm text-[#ea5e28] hover:text-black font-semibold"
@@ -90,12 +97,57 @@ export default function App() {
                 <Zap className="h-4 w-4" />
                 VillageHacks
               </button>
-              <button className="group flex items-center gap-2 rounded-full bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors px-5 py-2.5 text-sm text-black ml-auto">
+              <button className="group flex items-center gap-2 rounded-full bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors px-5 py-2.5 text-sm text-black">
                 Contact us
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </button>
             </div>
+
+            {/* Mobile menu toggle */}
+            <button
+              onClick={() => setMobileMenuOpen((v) => !v)}
+              aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
+              className="md:hidden ml-auto inline-flex items-center justify-center h-10 w-10 rounded-full border border-[#ea5e28]/30 bg-[#ea5e28]/10 text-[#ea5e28] transition-colors hover:bg-[#ea5e28]/20"
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
           </nav>
+
+          {/* Mobile menu panel */}
+          {mobileMenuOpen && (
+            <div className="md:hidden mt-4 border-t border-[#ea5e28]/12 pt-4 flex flex-col gap-1">
+              {[
+                { label: "Events", icon: Calendar },
+                { label: "Gallery", icon: Image },
+                { label: "Officers", icon: Users },
+                { label: "About", icon: Info },
+              ].map(({ label, icon: Icon }) => (
+                <button
+                  key={label}
+                  onClick={() => { handleNavClick(label); setMobileMenuOpen(false); }}
+                  className="group flex items-center gap-3 rounded-xl px-3 py-3 text-base text-neutral-200 hover:bg-[#ea5e28]/10 hover:text-[#ea5e28] transition-colors text-left"
+                >
+                  <Icon className="h-5 w-5 text-neutral-500 group-hover:text-[#ea5e28] transition-colors" />
+                  {label}
+                </button>
+              ))}
+
+              <div className="flex flex-col gap-3 mt-3">
+                <button
+                  onClick={() => { navigate("/hackathon"); window.scrollTo({ top: 0, behavior: "smooth" }); setMobileMenuOpen(false); }}
+                  className="flex items-center justify-center gap-2 rounded-full border-2 border-[#ea5e28] bg-[#ea5e28]/10 transition-colors px-5 py-3 text-sm text-[#ea5e28] font-semibold"
+                >
+                  <Zap className="h-4 w-4" />
+                  VillageHacks
+                </button>
+                <button className="flex items-center justify-center gap-2 rounded-full bg-[#ea5e28] transition-colors px-5 py-3 text-sm text-black font-semibold">
+                  Contact us
+                  <ArrowUpRight className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* ROUTES */}
@@ -105,6 +157,7 @@ export default function App() {
           <Route path="/hackathon" element={<HackathonPage />} />
           <Route path="/officers" element={<OfficersPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
 
         {/* FOOTER */}
@@ -136,10 +189,24 @@ export default function App() {
                 LinkedIn
               </a>
             </div>
-            <div>© 2026 — All rights reserved</div>
+            <div>
+              {/* The "©" on the Officers page is a hidden entry point to the admin login. */}
+              <span
+                onClick={() => {
+                  if (location.pathname === "/officers") setLoginOpen(true);
+                }}
+                className={location.pathname === "/officers" ? "cursor-default select-none" : undefined}
+                title={location.pathname === "/officers" ? "" : undefined}
+              >
+                ©
+              </span>{" "}
+              2026 — All rights reserved
+            </div>
           </div>
         </footer>
       </div>
+
+      <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
     </div>
   );
 }

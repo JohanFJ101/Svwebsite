@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 import { motion } from "motion/react";
 import heroVillage from "../../imports/Finalized.png";
 import { StarDestroyer } from "../components/StarDestroyer";
+import { useContent } from "../content/ContentContext";
 
 const headingFont = {
   fontFamily: "'Cormorant Garamond', Georgia, serif",
@@ -28,6 +29,8 @@ const fadeIn = {
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const { content } = useContent();
+  const { events, eventsHeading, eventsSubtitle } = content;
 
   const scrollToEvents = () => {
     document.getElementById("events")?.scrollIntoView({ behavior: "smooth" });
@@ -37,9 +40,10 @@ export default function HomePage() {
     <>
       {/* HERO */}
       <section className="relative grid min-h-[92vh] w-full grid-cols-1 items-center gap-4 overflow-hidden pb-32 pt-28 md:min-h-screen md:grid-cols-[50vw_minmax(0,1fr)] md:gap-0 md:pb-40 md:pt-24">
-        {/* Hero image — fades in with a slow scale */}
+        {/* Hero image — on mobile it becomes a full-bleed background behind the
+            text; on desktop it sits in its own grid column. */}
         <motion.div
-          className="relative -ml-[2vw] h-[80vw] min-h-[440px] w-[115vw] top-10 md:top-20 overflow-visible md:ml-0 md:h-[90vh] md:min-h-[700px] md:w-[55vw] lg:w-[57vw]"
+          className="absolute inset-0 overflow-hidden md:relative md:inset-auto md:top-20 md:h-[90vh] md:min-h-[700px] md:w-[55vw] lg:w-[57vw]"
           initial={{ opacity: 0, scale: 1.08 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.4, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -47,7 +51,7 @@ export default function HomePage() {
           <img
             src={heroVillage}
             alt="Village illustration"
-            className="h-full w-full origin-left scale-[1.25] object-contain object-left md:scale-[1.48]"
+            className="h-full w-full origin-center scale-110 object-contain object-center md:origin-left md:scale-[1.48] md:object-left"
             style={{
               mixBlendMode: "screen",
               filter:
@@ -59,17 +63,18 @@ export default function HomePage() {
         {/* Star Destroyer flyover */}
         <StarDestroyer />
 
-        {/* Right: text content — staggered children */}
-        <div className="relative z-10 mx-auto flex w-full max-w-[760px] flex-col items-start gap-8 px-6 md:mx-0 md:gap-10 md:px-10 lg:px-14">
+        {/* Right: text content — staggered children. On mobile it sits in a
+            glassmorphic card floating in front of the village image. */}
+        <div className="relative z-10 mx-4 flex flex-col items-start gap-6 rounded-3xl border border-[#ea5e28]/20 bg-black/40 p-6 shadow-[0_8px_40px_rgba(0,0,0,0.45)] backdrop-blur-xl backdrop-saturate-150 md:mx-0 md:w-full md:max-w-[760px] md:gap-10 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:px-10 md:shadow-none md:backdrop-blur-none md:backdrop-saturate-100 lg:px-14">
           <motion.div
             {...fadeUp}
             transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
           >
-            <button className="group inline-flex items-center justify-between gap-4 rounded-full border border-[#ea5e28]/40 bg-[#ea5e28]/10 px-6 py-3.5 text-white transition-colors hover:border-[#ea5e28] hover:bg-[#ea5e28]/20 md:px-7 md:py-4">
-              <span className="text-base font-semibold tracking-wide">
+            <button className="group inline-flex items-center justify-between gap-3 rounded-full border border-[#ea5e28]/40 bg-[#ea5e28]/10 px-4 py-2 text-white transition-colors hover:border-[#ea5e28] hover:bg-[#ea5e28]/20 md:gap-4 md:px-7 md:py-4">
+              <span className="text-xs font-semibold tracking-wide md:text-base">
                 We are hiring, Apply today
               </span>
-              <ArrowUpRight className="h-5 w-5 text-[#ea5e28] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 flex-shrink-0" />
+              <ArrowUpRight className="h-3.5 w-3.5 flex-shrink-0 text-[#ea5e28] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 md:h-5 md:w-5" />
             </button>
           </motion.div>
 
@@ -98,16 +103,16 @@ export default function HomePage() {
             <div className="flex flex-wrap gap-4">
               <button
                 onClick={() => navigate("/about")}
-                className="group inline-flex items-center gap-3 rounded-full bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors px-7 py-3.5 text-sm text-black font-semibold"
+                className="group inline-flex items-center gap-2 rounded-full bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors px-4 py-2 text-xs font-semibold text-black md:gap-3 md:px-7 md:py-3.5 md:text-sm"
               >
                 Who are we?
               </button>
               <button
                 onClick={scrollToEvents}
-                className="group inline-flex items-center gap-3 rounded-full border border-neutral-700 hover:border-[#ea5e28] hover:text-[#ea5e28] transition-colors px-7 py-3.5 text-sm text-white"
+                className="group inline-flex items-center gap-2 rounded-full border border-neutral-700 hover:border-[#ea5e28] hover:text-[#ea5e28] transition-colors px-4 py-2 text-xs text-white md:gap-3 md:px-7 md:py-3.5 md:text-sm"
               >
                 Upcoming Events
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1 md:h-4 md:w-4" />
               </button>
             </div>
           </motion.div>
@@ -132,12 +137,12 @@ export default function HomePage() {
                 className="text-[#ea5e28]"
                 style={{ fontStyle: "italic" }}
               >
-                U
+                {eventsHeading.charAt(0)}
               </span>
-              pcoming Events
+              {eventsHeading.slice(1)}
             </h2>
             <p className="mt-4 text-neutral-400 max-w-xl">
-              Connect, collaborate, and build with our community at our signature gatherings and workshops.
+              {eventsSubtitle}
             </p>
           </div>
           <button className="group inline-flex items-center gap-2 text-[#ea5e28] hover:text-[#ff6a30] transition-colors text-sm font-semibold self-start md:self-auto">
@@ -146,75 +151,110 @@ export default function HomePage() {
           </button>
         </motion.div>
 
-        {/* Event Card */}
-        <motion.div
-          className="group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/40 p-8 md:p-12 transition-all duration-500 hover:border-[#ea5e28]/45 hover:shadow-[0_0_50px_rgba(234,94,40,0.08)]"
-          style={{
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-          }}
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
-        >
-          {/* Ambient orange glow behind the card */}
-          <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-[#ea5e28]/5 blur-[80px] transition-all duration-500 group-hover:bg-[#ea5e28]/10" />
-
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8 items-center">
-            {/* Left Column: Details */}
-            <div className="space-y-6">
-              <div className="flex flex-wrap gap-2.5">
-                <span className="inline-flex items-center rounded-full bg-[#ea5e28]/10 border border-[#ea5e28]/25 px-3 py-1 text-xs font-semibold text-[#ea5e28] uppercase tracking-wider">
-                  Flagship Event
-                </span>
-                <span className="inline-flex items-center rounded-full bg-neutral-800 px-3 py-1 text-xs font-medium text-neutral-300">
-                  Networking &amp; Panels
-                </span>
-              </div>
-
-              <h3
-                className="text-3xl md:text-4xl font-semibold text-white tracking-tight uppercase"
-                style={headingFont}
+        {/* Event Cards */}
+        {events.length === 0 ? (
+          <p className="text-neutral-500">No upcoming events right now — check back soon.</p>
+        ) : (
+          <div className="space-y-6">
+            {events.map((event, index) => (
+              <motion.div
+                key={event.id}
+                className="group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/40 p-8 md:p-12 transition-all duration-500 hover:border-[#ea5e28]/45 hover:shadow-[0_0_50px_rgba(234,94,40,0.08)]"
+                style={{
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                }}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.8, delay: 0.15 + index * 0.1, ease: "easeOut" }}
               >
-                The Village Summit 2026
-              </h3>
+                {/* Ambient orange glow behind the card */}
+                <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-[#ea5e28]/5 blur-[80px] transition-all duration-500 group-hover:bg-[#ea5e28]/10" />
 
-              <p className="text-neutral-400 leading-relaxed max-w-2xl">
-                Our premier annual summit designed to bring together visionary student creators, builders, and builders-at-heart. Join us for a curated evening featuring interactive panels with young founders, creative showcases, and unparalleled networking opportunities.
-              </p>
+                <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8 items-center">
+                  {/* Left Column: Details */}
+                  <div className="space-y-6">
+                    {event.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-2.5">
+                        {event.tags.map((tag, ti) =>
+                          tag.highlight ? (
+                            <span
+                              key={ti}
+                              className="inline-flex items-center rounded-full bg-[#ea5e28]/10 border border-[#ea5e28]/25 px-3 py-1 text-xs font-semibold text-[#ea5e28] uppercase tracking-wider"
+                            >
+                              {tag.label}
+                            </span>
+                          ) : (
+                            <span
+                              key={ti}
+                              className="inline-flex items-center rounded-full bg-neutral-800 px-3 py-1 text-xs font-medium text-neutral-300"
+                            >
+                              {tag.label}
+                            </span>
+                          )
+                        )}
+                      </div>
+                    )}
 
-              {/* Event Meta Info */}
-              <div className="flex flex-wrap gap-6 text-sm text-neutral-400 pt-2">
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-[#ea5e28]" />
-                  <span>June 15, 2026</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-[#ea5e28]" />
-                  <span>6:00 PM — 9:30 PM EST</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-[#ea5e28]" />
-                  <span>Innovation Hub, Main Pavilion</span>
-                </div>
-              </div>
-            </div>
+                    <h3
+                      className="text-3xl md:text-4xl font-semibold text-white tracking-tight uppercase"
+                      style={headingFont}
+                    >
+                      {event.title}
+                    </h3>
 
-            {/* Right Column: CTA Box */}
-            <div className="border-t lg:border-t-0 lg:border-l border-neutral-800 lg:pl-10 pt-6 lg:pt-0 flex flex-col justify-center items-stretch h-full">
-              <div className="text-center lg:text-left mb-6">
-                <div className="text-xs text-neutral-500 uppercase tracking-wider">Status</div>
-                <div className="text-lg font-semibold text-white mt-1">Registrations Open</div>
-                <div className="text-xs text-[#ea5e28] mt-0.5 font-medium">Limited Seats Remaining</div>
-              </div>
-              <button className="group w-full flex items-center justify-center gap-2 rounded-xl bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors py-4 text-sm font-semibold text-black">
-                Secure Your Spot
-                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-              </button>
-            </div>
+                    <p className="text-neutral-400 leading-relaxed max-w-2xl">
+                      {event.description}
+                    </p>
+
+                    {/* Event Meta Info */}
+                    <div className="flex flex-wrap gap-6 text-sm text-neutral-400 pt-2">
+                      {event.date && (
+                        <div className="flex items-center gap-2">
+                          <Calendar className="h-4 w-4 text-[#ea5e28]" />
+                          <span>{event.date}</span>
+                        </div>
+                      )}
+                      {event.time && (
+                        <div className="flex items-center gap-2">
+                          <Clock className="h-4 w-4 text-[#ea5e28]" />
+                          <span>{event.time}</span>
+                        </div>
+                      )}
+                      {event.location && (
+                        <div className="flex items-center gap-2">
+                          <MapPin className="h-4 w-4 text-[#ea5e28]" />
+                          <span>{event.location}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Right Column: CTA Box */}
+                  <div className="border-t lg:border-t-0 lg:border-l border-neutral-800 lg:pl-10 pt-6 lg:pt-0 flex flex-col justify-center items-stretch h-full">
+                    <div className="text-center lg:text-left mb-6">
+                      <div className="text-xs text-neutral-500 uppercase tracking-wider">Status</div>
+                      <div className="text-lg font-semibold text-white mt-1">{event.statusLabel}</div>
+                      {event.statusNote && (
+                        <div className="text-xs text-[#ea5e28] mt-0.5 font-medium">{event.statusNote}</div>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => {
+                        if (event.ctaUrl) window.open(event.ctaUrl, "_blank", "noopener,noreferrer");
+                      }}
+                      className="group w-full flex items-center justify-center gap-2 rounded-xl bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors py-4 text-sm font-semibold text-black"
+                    >
+                      {event.ctaLabel}
+                      <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
-        </motion.div>
+        )}
       </section>
     </>
   );
