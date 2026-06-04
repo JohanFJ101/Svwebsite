@@ -1,10 +1,6 @@
 import {
   ArrowUpRight,
   ArrowRight,
-  Users,
-  Target,
-  Lightbulb,
-  Rocket,
 } from "lucide-react";
 import { useNavigate } from "react-router";
 import { motion } from "motion/react";
@@ -14,29 +10,6 @@ const headingFont = {
   fontWeight: 700,
   letterSpacing: "0.02em",
 };
-
-const values = [
-  {
-    icon: Lightbulb,
-    title: "INNOVATION",
-    desc: "We push boundaries and challenge conventions, fostering an environment where bold ideas thrive and creative solutions emerge.",
-  },
-  {
-    icon: Users,
-    title: "COMMUNITY",
-    desc: "We believe in the power of togetherness. Every member brings a unique perspective that strengthens our collective vision.",
-  },
-  {
-    icon: Target,
-    title: "IMPACT",
-    desc: "We measure success not just in achievements but in the lasting difference we make in our community and beyond.",
-  },
-  {
-    icon: Rocket,
-    title: "GROWTH",
-    desc: "We are committed to continuous learning and development, empowering every member to reach their fullest potential.",
-  },
-];
 
 export default function AboutPage() {
   const navigate = useNavigate();
@@ -94,15 +67,17 @@ export default function AboutPage() {
 
       {/* OUR STORY */}
       <section className="relative mx-auto max-w-7xl px-6 md:px-10 lg:px-14 pb-28">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Left Column: Heading & Highlight */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            className="lg:col-span-5 space-y-6"
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <h2
-              className="text-[clamp(32px,4vw,56px)] uppercase leading-none mb-8"
+              className="text-[clamp(32px,4vw,56px)] uppercase leading-none"
               style={headingFont}
             >
               <span className="text-[#ea5e28]" style={{ fontStyle: "italic" }}>
@@ -110,125 +85,42 @@ export default function AboutPage() {
               </span>
               ur Story
             </h2>
-            <div className="space-y-6 text-neutral-400 leading-relaxed">
-              <p>
-                Founded by a group of driven individuals who wanted to bridge the
-                gap between academic learning and real-world impact, we bring
-                together students from all disciplines to collaborate, build, and
-                grow together.
-              </p>
-              <p>
-                From grassroots initiatives to large-scale events, we create
-                opportunities for our members to develop leadership skills, expand
-                their networks, and leave a lasting mark on their community.
-                Whether you are here to lead, create, or simply find your
-                people — you have found the right place.
-              </p>
-              <p>
-                What started as a small collective of passionate students has
+            <div className="border-l-2 border-[#ea5e28] pl-6 py-2">
+              <p className="text-xl text-white font-medium italic leading-relaxed font-serif">
+                "What started as a small collective of passionate students has
                 grown into a thriving community of creators, innovators, and
-                change-makers. Today, we stand as a testament to what can be
-                achieved when ambition meets collaboration.
+                change-makers."
               </p>
             </div>
           </motion.div>
 
-          {/* Stats Card */}
+          {/* Right Column: Detailed Narrative */}
           <motion.div
-            className="rounded-2xl border border-neutral-800 bg-neutral-950/40 p-10 md:p-12 mt-4"
-            style={{
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-            }}
-            initial={{ opacity: 0, y: 50 }}
+            className="lg:col-span-7 space-y-6 text-neutral-400 leading-relaxed text-base md:text-lg"
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
           >
-            <h3
-              className="text-2xl uppercase mb-10"
-              style={headingFont}
-            >
-              By the Numbers
-            </h3>
-            <div className="grid grid-cols-2 gap-8">
-              {[
-                { value: "100+", label: "Projects Completed" },
-                { value: "500+", label: "Active Members" },
-                { value: "32", label: "Industry Partners" },
-                { value: "3", label: "Campus Chapters" },
-              ].map((s, i) => (
-                <motion.div
-                  key={s.label}
-                  className="space-y-2"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.3 + i * 0.1, ease: "easeOut" }}
-                >
-                  <div
-                    className="text-[clamp(36px,4vw,56px)] text-[#ea5e28] leading-none"
-                    style={{ ...headingFont, fontStyle: "italic" }}
-                  >
-                    {s.value}
-                  </div>
-                  <div className="text-sm text-neutral-500 uppercase tracking-wider">
-                    {s.label}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+            <p>
+              Founded by a group of driven individuals who wanted to bridge the
+              gap between academic learning and real-world impact, we bring
+              together students from all disciplines to collaborate, build, and
+              grow together.
+            </p>
+            <p>
+              From grassroots initiatives to large-scale events, we create
+              opportunities for our members to develop leadership skills, expand
+              their networks, and leave a lasting mark on their community.
+              Whether you are here to lead, create, or simply find your
+              people — you have found the right place.
+            </p>
+            <p>
+              Today, we stand as a testament to what can be achieved when ambition
+              meets collaboration, continually expanding our horizons to build the
+              future.
+            </p>
           </motion.div>
-        </div>
-      </section>
-
-      {/* OUR VALUES */}
-      <section className="relative mx-auto max-w-7xl px-6 md:px-10 lg:px-14 pb-28">
-        <motion.h2
-          className="text-[clamp(32px,4vw,56px)] uppercase leading-none mb-12"
-          style={headingFont}
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-        >
-          <span className="text-[#ea5e28]" style={{ fontStyle: "italic" }}>
-            O
-          </span>
-          ur Values
-        </motion.h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {values.map((v, i) => (
-            <motion.div
-              key={v.title}
-              className="group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/40 p-8 transition-all duration-500 hover:border-[#ea5e28]/40 hover:shadow-[0_0_40px_rgba(234,94,40,0.06)]"
-              style={{
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-              }}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.6, delay: i * 0.12, ease: "easeOut" }}
-            >
-              <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-[#ea5e28]/5 blur-[50px] transition-all duration-500 group-hover:bg-[#ea5e28]/12" />
-              <div className="relative z-10">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#ea5e28]/10 border border-[#ea5e28]/20 mb-6">
-                  <v.icon className="h-5 w-5 text-[#ea5e28]" />
-                </div>
-                <h3
-                  className="text-lg uppercase mb-3 tracking-wide"
-                  style={headingFont}
-                >
-                  {v.title}
-                </h3>
-                <p className="text-sm text-neutral-400 leading-relaxed">
-                  {v.desc}
-                </p>
-              </div>
-            </motion.div>
-          ))}
         </div>
       </section>
 

@@ -9,20 +9,19 @@ import {
 import type { SiteContent } from "./types";
 import { defaultContent } from "./defaultContent";
 
-const STORAGE_KEY = "sv-site-content";
-
 interface ContentContextValue {
   content: SiteContent;
-  /** Replace the whole content tree (used by the admin Save action). */
+  loading: boolean;
+  error: string;
+  /** Replace the in-memory content after a successful backend save. */
   setContent: (next: SiteContent) => void;
-  /** Restore the original hardcoded defaults. */
+  /** Restore the in-memory default content after a successful backend reset. */
   reset: () => void;
+  refresh: () => Promise<void>;
 }
 
 const ContentContext = createContext<ContentContextValue | null>(null);
 
-// Merge persisted content over defaults so new fields added later still get a
-// value even if an older blob is in localStorage.
 function mergeWithDefaults(stored: Partial<SiteContent> | null): SiteContent {
   if (!stored) return defaultContent;
   return {
@@ -39,48 +38,45 @@ function mergeWithDefaults(stored: Partial<SiteContent> | null): SiteContent {
   };
 }
 
-function loadContent(): SiteContent {
-  if (typeof window === "undefined") return defaultContent;
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    return mergeWithDefaults(raw ? (JSON.parse(raw) as SiteContent) : null);
-  } catch {
-    return defaultContent;
-  }
-}
-
 export function ContentProvider({ children }: { children: React.ReactNode }) {
-  const [content, setContentState] = useState<SiteContent>(loadContent);
-
-  // Persist on every change.
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
-    } catch {
-      /* storage may be unavailable (private mode); ignore */
-    }
-  }, [content]);
-
-  // Keep other open tabs in sync.
-  useEffect(() => {
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === STORAGE_KEY) setContentState(loadContent());
-    };
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
-  }, []);
+  const [content, setContentState] = useState<SiteContent>(defaultContent);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const setContent = useCallback((next: SiteContent) => {
-    setContentState(next);
+    setContentState(mergeWithDefaults(next));
   }, []);
 
   const reset = useCallback(() => {
     setContentState(defaultContent);
   }, []);
 
+  const refresh = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/content", {
+        credentials: "same-origin",
+        cache: "no-store",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Unable to load site content.");
+      setContentState(mergeWithDefaults(data.content));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to load site content.");
+      setContentState(defaultContent);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    void refresh();
+  }, [refresh]);
+
   const value = useMemo(
-    () => ({ content, setContent, reset }),
-    [content, setContent, reset]
+    () => ({ content, loading, error, setContent, reset, refresh }),
+    [content, loading, error, setContent, reset, refresh]
   );
 
   return (

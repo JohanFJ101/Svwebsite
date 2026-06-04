@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { useContent } from "../content/ContentContext";
 import { defaultContent } from "../content/defaultContent";
-import { isAuthed, setAuthed } from "../content/auth";
+import { isAuthed, logoutAdmin } from "../content/auth";
 import type {
   SiteContent,
   EventItem,
@@ -212,41 +212,126 @@ function TagsEditor({
 
 export default function AdminPage() {
   const navigate = useNavigate();
-  const { content, setContent, reset } = useContent();
+  const { content, loading: contentLoading, setContent, reset } = useContent();
   const [draft, setDraft] = useState<SiteContent>(() => clone(content));
   const [tab, setTab] = useState<"events" | "hackathon">("events");
   const [saved, setSaved] = useState(false);
-  const authed = isAuthed();
+  const [authChecked, setAuthChecked] = useState(false);
+  const [authed, setAuthedState] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [serverError, setServerError] = useState("");
+  const [storageLabel, setStorageLabel] = useState("");
 
   // Guard: only signed-in admins can view this page.
   useEffect(() => {
-    if (!authed) navigate("/", { replace: true });
-  }, [authed, navigate]);
+    let cancelled = false;
+    void (async () => {
+      const ok = await isAuthed();
+      if (cancelled) return;
+      setAuthedState(ok);
+      setAuthChecked(true);
+      if (!ok) navigate("/", { replace: true });
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [navigate]);
 
-  if (!authed) return null;
+  useEffect(() => {
+    if (!authed) return;
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch("/api/admin/content", {
+          credentials: "same-origin",
+          cache: "no-store",
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Unable to load admin content.");
+        if (cancelled) return;
+        setContent(data.content);
+        setDraft(clone(data.content));
+        setStorageLabel(data.storage?.source || "");
+      } catch (err) {
+        if (!cancelled) {
+          setServerError(
+            err instanceof Error ? err.message : "Unable to load admin content."
+          );
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [authed, setContent]);
 
-  const logout = () => {
-    setAuthed(false);
+  useEffect(() => {
+    if (!authChecked || !authed) return;
+    setDraft((current) =>
+      JSON.stringify(current) === JSON.stringify(defaultContent)
+        ? clone(content)
+        : current
+    );
+  }, [authChecked, authed, content]);
+
+  if (!authChecked || !authed) return null;
+
+  const logout = async () => {
+    await logoutAdmin();
     navigate("/");
   };
 
   const dirty = JSON.stringify(draft) !== JSON.stringify(content);
 
-  const save = () => {
-    setContent(clone(draft));
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+  const save = async () => {
+    setBusy(true);
+    setServerError("");
+    try {
+      const res = await fetch("/api/admin/content", {
+        method: "PUT",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: draft }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Unable to save content.");
+      setContent(clone(data.content));
+      setDraft(clone(data.content));
+      setStorageLabel(data.storage?.source || "");
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    } catch (err) {
+      setServerError(err instanceof Error ? err.message : "Unable to save content.");
+    } finally {
+      setBusy(false);
+    }
   };
 
-  const resetAll = () => {
+  const resetAll = async () => {
     if (
       !window.confirm(
         "Reset ALL content back to the original defaults? This cannot be undone."
       )
     )
       return;
-    reset();
-    setDraft(clone(defaultContent));
+    setBusy(true);
+    setServerError("");
+    try {
+      const res = await fetch("/api/admin/content", {
+        method: "DELETE",
+        credentials: "same-origin",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Unable to reset content.");
+      reset();
+      setContent(clone(data.content));
+      setDraft(clone(data.content));
+      setStorageLabel(data.storage?.source || "");
+    } catch (err) {
+      setServerError(err instanceof Error ? err.message : "Unable to reset content.");
+    } finally {
+      setBusy(false);
+    }
   };
 
   const exportJson = () => {
@@ -353,9 +438,14 @@ export default function AdminPage() {
         </h1>
         <p className="mt-4 text-neutral-400 max-w-2xl">
           Edit the events on the home page and every detail of the VillageHacks
-          page. Changes are saved in this browser. Use Export to back up your
-          content or move it to another machine.
+          page. Changes are saved through the backend and published for every
+          visitor as soon as you save.
         </p>
+        {storageLabel && (
+          <p className="mt-3 text-xs uppercase tracking-wider text-neutral-600">
+            Content source: {storageLabel}
+          </p>
+        )}
       </div>
 
       {/* Action bar */}
@@ -365,11 +455,11 @@ export default function AdminPage() {
       >
         <button
           onClick={save}
-          disabled={!dirty}
+          disabled={!dirty || busy || contentLoading}
           className="inline-flex items-center gap-2 rounded-xl bg-[#ea5e28] hover:bg-[#ff6a30] disabled:opacity-40 disabled:hover:bg-[#ea5e28] transition-colors px-5 py-2.5 text-sm font-semibold text-black"
         >
           {saved ? <Check className="h-4 w-4" /> : <Save className="h-4 w-4" />}
-          {saved ? "Saved" : "Save changes"}
+          {busy ? "Saving..." : saved ? "Saved" : "Save changes"}
         </button>
         {dirty && !saved && (
           <span className="text-xs text-[#ea5e28] font-medium">
@@ -389,6 +479,7 @@ export default function AdminPage() {
           </label>
           <button
             onClick={resetAll}
+            disabled={busy}
             className="inline-flex items-center gap-2 rounded-xl border border-neutral-700 hover:border-red-400 hover:text-red-400 transition-colors px-4 py-2.5 text-sm text-neutral-300"
           >
             <RotateCcw className="h-4 w-4" /> Reset
@@ -401,6 +492,12 @@ export default function AdminPage() {
           </button>
         </div>
       </div>
+
+      {serverError && (
+        <div className="mb-8 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+          {serverError}
+        </div>
+      )}
 
       {/* Tabs */}
       <div className="flex items-center gap-2 mb-8 border-b border-neutral-800">
@@ -422,6 +519,19 @@ export default function AdminPage() {
       {/* EVENTS TAB */}
       {tab === "events" && (
         <div className="space-y-6">
+          <SectionCard title="Events Section">
+            <TextField
+              label="Heading"
+              value={draft.eventsHeading}
+              onChange={(v) => setDraft((d) => ({ ...d, eventsHeading: v }))}
+            />
+            <TextArea
+              label="Subtitle"
+              value={draft.eventsSubtitle}
+              onChange={(v) => setDraft((d) => ({ ...d, eventsSubtitle: v }))}
+            />
+          </SectionCard>
+
           {draft.events.map((ev, i) => (
             <SectionCard
               key={ev.id}

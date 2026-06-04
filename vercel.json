@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    { "source": "/about", "destination": "/index.html" },
+    { "source": "/officers", "destination": "/index.html" },
+    { "source": "/gallery", "destination": "/index.html" },
+    { "source": "/hackathon", "destination": "/index.html" },
+    { "source": "/admin", "destination": "/index.html" }
+  ]
+}

@@ -55,7 +55,7 @@ export default function App() {
 
         {/* NAV — glassmorphism, fixed */}
         <div
-          className="fixed top-0 left-0 right-0 z-50 w-full px-6 md:px-10 lg:px-14 py-4"
+          className="fixed top-0 left-0 right-0 z-50 w-full px-4 py-4 md:px-10 lg:px-14"
           style={{
             background: "rgba(0,0,0,0.35)",
             backdropFilter: "blur(18px) saturate(160%)",
@@ -68,7 +68,7 @@ export default function App() {
               onClick={() => { navigate("/"); window.scrollTo({ top: 0, behavior: "smooth" }); setMobileMenuOpen(false); }}
               className="cursor-pointer shrink-0"
             >
-              <Logo className="h-7 w-auto" />
+              <Logo className="h-6 w-auto max-w-[100px] object-contain sm:h-7 sm:max-w-none" />
             </div>
             <ul className="hidden md:flex items-center gap-8 text-sm text-neutral-300 flex-1 justify-center">
               {[
@@ -103,15 +103,24 @@ export default function App() {
               </button>
             </div>
 
-            {/* Mobile menu toggle */}
-            <button
-              onClick={() => setMobileMenuOpen((v) => !v)}
-              aria-label="Toggle menu"
-              aria-expanded={mobileMenuOpen}
-              className="md:hidden ml-auto inline-flex items-center justify-center h-10 w-10 rounded-full border border-[#ea5e28]/30 bg-[#ea5e28]/10 text-[#ea5e28] transition-colors hover:bg-[#ea5e28]/20"
-            >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
+            <div className="md:hidden ml-auto flex min-w-0 items-center gap-1.5">
+              <button
+                onClick={() => { navigate("/hackathon"); window.scrollTo({ top: 0, behavior: "smooth" }); setMobileMenuOpen(false); }}
+                className="inline-flex h-9 shrink-0 items-center justify-center rounded-full border-2 border-[#ea5e28] bg-[#ea5e28]/10 px-2.5 text-[11px] font-semibold text-[#ea5e28] transition-colors hover:bg-[#ea5e28]/20 sm:h-10 sm:px-4 sm:text-xs"
+              >
+                VillageHacks
+              </button>
+
+              {/* Mobile menu toggle */}
+              <button
+                onClick={() => setMobileMenuOpen((v) => !v)}
+                aria-label="Toggle menu"
+                aria-expanded={mobileMenuOpen}
+                className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#ea5e28]/30 bg-[#ea5e28]/10 text-[#ea5e28] transition-colors hover:bg-[#ea5e28]/20 sm:h-10 sm:w-10"
+              >
+                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </button>
+            </div>
           </nav>
 
           {/* Mobile menu panel */}
@@ -134,13 +143,6 @@ export default function App() {
               ))}
 
               <div className="flex flex-col gap-3 mt-3">
-                <button
-                  onClick={() => { navigate("/hackathon"); window.scrollTo({ top: 0, behavior: "smooth" }); setMobileMenuOpen(false); }}
-                  className="flex items-center justify-center gap-2 rounded-full border-2 border-[#ea5e28] bg-[#ea5e28]/10 transition-colors px-5 py-3 text-sm text-[#ea5e28] font-semibold"
-                >
-                  <Zap className="h-4 w-4" />
-                  VillageHacks
-                </button>
                 <button className="flex items-center justify-center gap-2 rounded-full bg-[#ea5e28] transition-colors px-5 py-3 text-sm text-black font-semibold">
                   Contact us
                   <ArrowUpRight className="h-4 w-4" />

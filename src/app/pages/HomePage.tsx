@@ -43,7 +43,7 @@ export default function HomePage() {
         {/* Hero image — on mobile it becomes a full-bleed background behind the
             text; on desktop it sits in its own grid column. */}
         <motion.div
-          className="absolute inset-0 overflow-hidden md:relative md:inset-auto md:top-20 md:h-[90vh] md:min-h-[700px] md:w-[55vw] lg:w-[57vw]"
+          className="absolute inset-0 overflow-hidden md:overflow-visible md:relative md:inset-auto md:top-20 md:h-[90vh] md:min-h-[700px] md:w-[55vw] lg:w-[57vw]"
           initial={{ opacity: 0, scale: 1.08 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.4, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -153,7 +153,49 @@ export default function HomePage() {
 
         {/* Event Cards */}
         {events.length === 0 ? (
-          <p className="text-neutral-500">No upcoming events right now — check back soon.</p>
+          <motion.div
+            className="relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/40 p-10 md:p-16 text-center transition-all duration-500 hover:border-[#ea5e28]/35 hover:shadow-[0_0_50px_rgba(234,94,40,0.06)]"
+            style={{
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+            }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            {/* Ambient orange glow behind the card */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-56 w-56 rounded-full bg-[#ea5e28]/5 blur-[100px]" />
+
+            <div className="relative z-10 max-w-lg mx-auto flex flex-col items-center space-y-6">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-neutral-900 border border-neutral-800 text-[#ea5e28]">
+                <Calendar className="h-6 w-6 animate-pulse" />
+              </div>
+              
+              <div className="space-y-2">
+                <h3
+                  className="text-3xl md:text-4xl font-semibold text-white tracking-tight uppercase"
+                  style={headingFont}
+                >
+                  Stay Tuned
+                </h3>
+                <p className="text-neutral-400 leading-relaxed text-sm md:text-base">
+                  We are currently planning our next lineup of panels, hands-on workshops, and community socials. Check back soon or follow us to be the first to know when registrations open!
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 w-full justify-center pt-2">
+                <button
+                  onClick={() => {
+                    document.getElementById("footer")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-700 bg-neutral-900/50 hover:bg-neutral-900 hover:border-neutral-500 transition-colors px-6 py-3 text-sm font-semibold text-white"
+                >
+                  Get Updates
+                </button>
+              </div>
+            </div>
+          </motion.div>
         ) : (
           <div className="space-y-6">
             {events.map((event, index) => (

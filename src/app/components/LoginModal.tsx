@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Lock, X } from "lucide-react";
-import { verifyCredentials, setAuthed } from "../content/auth";
+import { verifyCredentials } from "../content/auth";
 
 const headingFont = {
   fontFamily: "'Cormorant Garamond', Georgia, serif",
@@ -45,15 +45,14 @@ export function LoginModal({
     e.preventDefault();
     setBusy(true);
     setError("");
-    const ok = await verifyCredentials(username, password);
+    const result = await verifyCredentials(username, password);
     setBusy(false);
-    if (ok) {
-      setAuthed(true);
+    if (result.ok) {
       onClose();
       navigate("/admin");
       window.scrollTo({ top: 0 });
     } else {
-      setError("Incorrect username or password.");
+      setError(result.error || "Incorrect username or password.");
       setPassword("");
     }
   };
