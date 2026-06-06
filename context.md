@@ -247,5 +247,5 @@ When you make any change:
 6. Prefer small, reversible edits. If something here is now wrong, fix the doc as
    part of your change rather than leaving it stale.
 
-_Last indexed: 2026-06-04._
+_Last indexed: 2026-06-06._
 ```
