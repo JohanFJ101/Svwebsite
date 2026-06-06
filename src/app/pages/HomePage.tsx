@@ -79,7 +79,7 @@ export default function HomePage() {
           </motion.div>
 
           <motion.h1
-            className="max-w-[760px] text-[clamp(50px,8vw,118px)] leading-[0.88] uppercase"
+            className="max-w-[760px] text-[clamp(40px,6.5vw,90px)] leading-[0.88] uppercase"
             style={headingFont}
             {...fadeUp}
             transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
@@ -179,9 +179,6 @@ export default function HomePage() {
                 >
                   Stay Tuned
                 </h3>
-                <p className="text-neutral-400 leading-relaxed text-sm md:text-base">
-                  We are currently planning our next lineup of panels, hands-on workshops, and community socials. Check back soon or follow us to be the first to know when registrations open!
-                </p>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 w-full justify-center pt-2">

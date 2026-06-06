@@ -1,5 +1,14 @@
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Camera, Calendar, MapPin, Tag, ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  Camera,
+  ChevronLeft,
+  ChevronRight,
+  Maximize2,
+  X,
+  Zap,
+} from "lucide-react";
 import { useNavigate } from "react-router";
 
 const headingFont = {
@@ -8,26 +17,101 @@ const headingFont = {
   letterSpacing: "0.02em",
 };
 
-interface GalleryItem {
-  id: number;
-  title: string;
-  category: "hackathons" | "workshops" | "socials";
-  date: string;
-  location: string;
-  description: string;
-  gradient: string;
+interface GalleryPhoto {
+  id: string;
+  thumb: string;
+  full: string;
 }
 
-const galleryItems: GalleryItem[] = [];
+const thumbnailImports = import.meta.glob(
+  "../../imports/gallery/villagehacks-26/thumbs/*.jpg",
+  {
+    eager: true,
+    query: "?url",
+    import: "default",
+  }
+) as Record<string, string>;
+
+const fullImports = import.meta.glob(
+  "../../imports/gallery/villagehacks-26/full/*.jpg",
+  {
+    eager: true,
+    query: "?url",
+    import: "default",
+  }
+) as Record<string, string>;
+
+const assetIdFromPath = (path: string) =>
+  path.split("/").pop()?.replace(/\.[^.]+$/, "") ?? path;
+
+const fullImagesById = Object.entries(fullImports).reduce<Record<string, string>>(
+  (images, [path, src]) => {
+    images[assetIdFromPath(path)] = src;
+    return images;
+  },
+  {}
+);
+
+const villageHacksPhotos = Object.entries(thumbnailImports)
+  .map<GalleryPhoto | null>(([path, thumb]) => {
+    const id = assetIdFromPath(path);
+    const full = fullImagesById[id];
+
+    if (!full) return null;
+
+    return { id, thumb, full };
+  })
+  .filter((photo): photo is GalleryPhoto => Boolean(photo))
+  .sort((a, b) =>
+    a.id.localeCompare(b.id, undefined, {
+      numeric: true,
+      sensitivity: "base",
+    })
+  );
 
 export default function GalleryPage() {
   const navigate = useNavigate();
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const selectedPhoto =
+    selectedIndex === null ? null : villageHacksPhotos[selectedIndex];
+
+  const showPrevious = () => {
+    setSelectedIndex((index) =>
+      index === null
+        ? null
+        : (index - 1 + villageHacksPhotos.length) % villageHacksPhotos.length
+    );
+  };
+
+  const showNext = () => {
+    setSelectedIndex((index) =>
+      index === null ? null : (index + 1) % villageHacksPhotos.length
+    );
+  };
+
+  useEffect(() => {
+    if (selectedIndex === null) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSelectedIndex(null);
+      if (event.key === "ArrowLeft") showPrevious();
+      if (event.key === "ArrowRight") showNext();
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedIndex]);
 
   return (
     <>
       <div className="relative pt-36 pb-20 md:pt-44 md:pb-28 px-6 md:px-10 lg:px-14 min-h-screen">
         <div className="mx-auto max-w-7xl">
-          {/* Back Button */}
           <motion.button
             onClick={() => navigate("/")}
             className="group inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors text-sm mb-10"
@@ -39,7 +123,6 @@ export default function GalleryPage() {
             Back to Home
           </motion.button>
 
-          {/* Heading */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
             <div>
               <motion.div
@@ -76,104 +159,185 @@ export default function GalleryPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
             >
-              Take a visual journey through our builds, workshops, late-night hackathons, and community socials that make up the Village spirit.
+              Take a visual journey through our builds, workshops, late-night
+              hackathons, and community socials that make up the Village spirit.
             </motion.p>
           </div>
 
-          {/* Gallery Grid */}
-          {galleryItems.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-col items-center justify-center text-center p-12 md:p-20 rounded-2xl border border-neutral-900 bg-neutral-950/20 backdrop-blur-md min-h-[350px] relative overflow-hidden"
-            >
-              {/* Subtle ambient glow inside empty state card */}
-              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-48 w-48 rounded-full bg-[#ea5e28]/5 blur-[80px]" />
-              
-              <div className="relative z-10 flex flex-col items-center max-w-sm space-y-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-neutral-900/80 border border-neutral-800 text-neutral-500">
-                  <Camera className="h-6 w-6 animate-pulse" />
+          <motion.section
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.35, ease: "easeOut" }}
+            className="space-y-8"
+          >
+            <div className="flex flex-col gap-4 border-b border-neutral-900 pb-6 md:flex-row md:items-end md:justify-between">
+              <div>
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#ea5e28]/25 bg-[#ea5e28]/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#ea5e28]">
+                  <Zap className="h-3.5 w-3.5" />
+                  VillageHacks '26
                 </div>
-                <div className="space-y-2">
-                  <h3 className="text-xl text-neutral-300 font-semibold uppercase tracking-wider" style={headingFont}>
-                    Gallery is Empty
-                  </h3>
-                  <p className="text-neutral-500 text-sm leading-relaxed">
-                    No moments captured yet. Photos from our upcoming builds, workshops, and socials will be posted here.
-                  </p>
-                </div>
+                <h2
+                  className="text-[clamp(32px,4vw,56px)] uppercase leading-none"
+                  style={headingFont}
+                >
+                  <span className="text-[#ea5e28]" style={{ fontStyle: "italic" }}>
+                    V
+                  </span>
+                  illageHacks '26
+                </h2>
               </div>
-            </motion.div>
-          ) : (
-            <motion.div 
-              layout
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-              <AnimatePresence mode="popLayout">
-                {galleryItems.map((item, idx) => (
-                  <motion.div
-                    layout
-                    key={item.id}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.5, delay: idx * 0.05 }}
-                    className="group relative overflow-hidden rounded-2xl border border-neutral-900 bg-neutral-950/40 p-6 flex flex-col justify-between min-h-[320px] transition-all duration-500 hover:border-[#ea5e28]/30"
-                    style={{
-                      backdropFilter: "blur(12px)",
-                      WebkitBackdropFilter: "blur(12px)",
+              <span className="text-sm text-neutral-500">
+                {villageHacksPhotos.length} photos
+              </span>
+            </div>
+
+            {villageHacksPhotos.length === 0 ? (
+              <div className="flex min-h-[320px] flex-col items-center justify-center rounded-2xl border border-neutral-900 bg-neutral-950/20 p-12 text-center backdrop-blur-md">
+                <Camera className="mb-4 h-8 w-8 text-neutral-600" />
+                <p className="max-w-sm text-sm leading-relaxed text-neutral-500">
+                  VillageHacks '26 photos will appear here when optimized gallery
+                  assets are available.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 xl:grid-cols-4">
+                {villageHacksPhotos.map((photo, index) => (
+                  <motion.button
+                    key={photo.id}
+                    type="button"
+                    onClick={() => setSelectedIndex(index)}
+                    className="group relative aspect-[4/5] overflow-hidden rounded-2xl border border-neutral-900 bg-neutral-950/40 text-left transition-all duration-500 hover:border-[#ea5e28]/40 focus:outline-none focus:ring-2 focus:ring-[#ea5e28]/70 focus:ring-offset-2 focus:ring-offset-black"
+                    initial={{ opacity: 0, y: 18 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{
+                      duration: 0.45,
+                      delay: Math.min(index * 0.025, 0.35),
+                      ease: "easeOut",
                     }}
+                    aria-label={`Open VillageHacks '26 photo ${index + 1} of ${villageHacksPhotos.length}`}
                   >
-                    {/* Decorative Glow Ambient Gradient */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-40 transition-opacity duration-500 group-hover:opacity-75`} />
-                    
-                    {/* Dynamic Corner Accents */}
-                    <div className="absolute top-0 right-0 w-20 h-20 bg-[#ea5e28]/5 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    
-                    {/* Content Top */}
-                    <div className="relative z-10">
-                      <div className="flex items-center justify-between gap-4 mb-6">
-                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-neutral-900/80 text-[#ea5e28] border border-neutral-800">
-                          <Tag className="h-3 w-3" />
-                          {item.category}
-                        </span>
-                        <span className="flex items-center gap-1.5 text-xs text-neutral-500">
-                          <Calendar className="h-3.5 w-3.5" />
-                          {item.date}
-                        </span>
-                      </div>
-  
-                      <h3 
-                        className="text-2xl uppercase text-white mb-3 tracking-wide group-hover:text-[#ea5e28] transition-colors duration-300"
-                        style={headingFont}
-                      >
-                        {item.title}
-                      </h3>
-                      
-                      <p className="text-sm text-neutral-400 leading-relaxed font-light line-clamp-3">
-                        {item.description}
-                      </p>
-                    </div>
-  
-                    {/* Content Bottom */}
-                    <div className="relative z-10 pt-6 border-t border-neutral-900/60 mt-6 flex items-center justify-between text-xs text-neutral-500">
-                      <span className="flex items-center gap-1">
-                        <MapPin className="h-3.5 w-3.5 text-[#ea5e28]" />
-                        {item.location}
+                    <img
+                      src={photo.thumb}
+                      alt={`VillageHacks '26 photo ${index + 1}`}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-95" />
+                    <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between gap-3 p-4">
+                      <span className="text-xs font-semibold uppercase tracking-wider text-white/90">
+                        Photo {index + 1}
                       </span>
-                      <span className="opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 text-[#ea5e28] font-semibold flex items-center gap-1">
-                        View Album
-                        <ArrowRight className="h-3 w-3" />
+                      <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/35 text-white backdrop-blur-md transition-colors group-hover:border-[#ea5e28]/60 group-hover:text-[#ea5e28]">
+                        <Maximize2 className="h-4 w-4" />
                       </span>
                     </div>
-                  </motion.div>
+                  </motion.button>
                 ))}
-              </AnimatePresence>
-            </motion.div>
-          )}
+              </div>
+            )}
+          </motion.section>
         </div>
       </div>
+
+      <AnimatePresence>
+        {selectedPhoto && selectedIndex !== null && (
+          <motion.div
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 px-4 py-6 backdrop-blur-xl md:px-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22 }}
+            onClick={() => setSelectedIndex(null)}
+          >
+            <div className="absolute left-4 right-4 top-4 z-10 flex items-center justify-between gap-4 md:left-8 md:right-8">
+              <span className="rounded-full border border-white/10 bg-neutral-950/70 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-neutral-300 backdrop-blur-md">
+                {selectedIndex + 1} / {villageHacksPhotos.length}
+              </span>
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setSelectedIndex(null);
+                }}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-neutral-950/70 text-white backdrop-blur-md transition-colors hover:border-[#ea5e28]/50 hover:text-[#ea5e28] focus:outline-none focus:ring-2 focus:ring-[#ea5e28]/70"
+                aria-label="Close photo"
+                title="Close photo"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <button
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                showPrevious();
+              }}
+              className="absolute left-4 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-neutral-950/70 text-white backdrop-blur-md transition-colors hover:border-[#ea5e28]/50 hover:text-[#ea5e28] focus:outline-none focus:ring-2 focus:ring-[#ea5e28]/70 md:inline-flex"
+              aria-label="Previous photo"
+              title="Previous photo"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </button>
+
+            <motion.div
+              key={selectedPhoto.id}
+              className="max-h-[82vh] max-w-[min(1100px,100%)]"
+              initial={{ opacity: 0, scale: 0.96, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.98, y: 8 }}
+              transition={{ duration: 0.28, ease: "easeOut" }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <img
+                src={selectedPhoto.full}
+                alt={`VillageHacks '26 photo ${selectedIndex + 1}`}
+                decoding="async"
+                className="max-h-[82vh] max-w-full rounded-2xl border border-white/10 bg-neutral-950 object-contain shadow-2xl shadow-black/60"
+              />
+            </motion.div>
+
+            <button
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                showNext();
+              }}
+              className="absolute right-4 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-neutral-950/70 text-white backdrop-blur-md transition-colors hover:border-[#ea5e28]/50 hover:text-[#ea5e28] focus:outline-none focus:ring-2 focus:ring-[#ea5e28]/70 md:inline-flex"
+              aria-label="Next photo"
+              title="Next photo"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </button>
+
+            <div
+              className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-3 md:hidden"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={showPrevious}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-neutral-950/70 text-white backdrop-blur-md transition-colors hover:text-[#ea5e28] focus:outline-none focus:ring-2 focus:ring-[#ea5e28]/70"
+                aria-label="Previous photo"
+                title="Previous photo"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                type="button"
+                onClick={showNext}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-neutral-950/70 text-white backdrop-blur-md transition-colors hover:text-[#ea5e28] focus:outline-none focus:ring-2 focus:ring-[#ea5e28]/70"
+                aria-label="Next photo"
+                title="Next photo"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
