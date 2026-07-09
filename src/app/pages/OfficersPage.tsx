@@ -6,6 +6,8 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router";
 import { motion } from "motion/react";
+import yuuviPhoto from "../../imports/gallery/Officer Photos/YUVI.jpg";
+import johanPhoto from "../../imports/gallery/Officer Photos/johanj.jpeg";
 
 const headingFont = {
   fontFamily: "'Cormorant Garamond', Georgia, serif",
@@ -18,6 +20,7 @@ const officers = [
     name: "Yuuvraj Jain",
     role: "President",
     initials: "YJ",
+    photo: yuuviPhoto,
     bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     gradient: "from-[#ea5e28]/20 to-amber-500/10",
   },
@@ -25,6 +28,7 @@ const officers = [
     name: "Johan Jagalur",
     role: "Lead Designer",
     initials: "JJ",
+    photo: johanPhoto,
     bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     gradient: "from-[#ea5e28]/15 to-rose-500/10",
   },
@@ -110,12 +114,20 @@ export default function OfficersPage() {
             >
               {/* Avatar area */}
               <div className={`relative w-full aspect-[4/3] bg-gradient-to-br ${officer.gradient} flex items-center justify-center overflow-hidden`}>
-                <span
-                  className="text-6xl text-white/20 group-hover:text-white/35 transition-colors duration-500 select-none"
-                  style={headingFont}
-                >
-                  {officer.initials}
-                </span>
+                {"photo" in officer ? (
+                  <img
+                    src={officer.photo}
+                    alt={officer.name}
+                    className="absolute inset-0 w-full h-full object-cover object-top"
+                  />
+                ) : (
+                  <span
+                    className="text-6xl text-white/20 group-hover:text-white/35 transition-colors duration-500 select-none"
+                    style={headingFont}
+                  >
+                    {officer.initials}
+                  </span>
+                )}
                 {/* Ambient glow */}
                 <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 h-16 w-32 rounded-full bg-[#ea5e28]/10 blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>

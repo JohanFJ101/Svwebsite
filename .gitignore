@@ -1,3 +1,4 @@
 .local/
 mobile-header.png
-node_modules/.vite/
+node_modules/
+dist/
