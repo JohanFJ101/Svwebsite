@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router";
 
+
 const headingFont = {
   fontFamily: "'Cormorant Garamond', Georgia, serif",
   fontWeight: 700,
@@ -67,7 +68,9 @@ const villageHacksPhotos = Object.entries(thumbnailImports)
       numeric: true,
       sensitivity: "base",
     })
-  );
+  )
+  .filter((_, index) => [1, 7, 8, 9].includes(index + 1));
+
 
 export default function GalleryPage() {
   const navigate = useNavigate();
@@ -240,6 +243,8 @@ export default function GalleryPage() {
           </motion.section>
         </div>
       </div>
+
+
 
       <AnimatePresence>
         {selectedPhoto && selectedIndex !== null && (

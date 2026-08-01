@@ -4,12 +4,14 @@ import {
   Calendar,
   MapPin,
   Clock,
+  Zap,
 } from "lucide-react";
 import { useNavigate } from "react-router";
 import { motion } from "motion/react";
 import heroVillage from "../../imports/Finalized.png";
 import { StarDestroyer } from "../components/StarDestroyer";
 import { useContent } from "../content/ContentContext";
+import { PartnersCarousel } from "../components/PartnersCarousel";
 
 const headingFont = {
   fontFamily: "'Cormorant Garamond', Georgia, serif",
@@ -70,12 +72,16 @@ export default function HomePage() {
             {...fadeUp}
             transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
           >
-            <button className="group inline-flex items-center justify-between gap-3 rounded-full border border-[#ea5e28]/40 bg-[#ea5e28]/10 px-4 py-2 text-white transition-colors hover:border-[#ea5e28] hover:bg-[#ea5e28]/20 md:gap-4 md:px-7 md:py-4">
+            <button
+              onClick={() => window.open("https://forms.gle/5JEZYTucaWQgXsiV8", "_blank", "noopener,noreferrer")}
+              className="group inline-flex items-center justify-between gap-3 rounded-full border border-[#ea5e28]/40 bg-[#ea5e28]/10 px-4 py-2 text-white transition-colors hover:border-[#ea5e28] hover:bg-[#ea5e28]/20 md:gap-4 md:px-7 md:py-4 cursor-pointer"
+            >
               <span className="text-xs font-semibold tracking-wide md:text-base">
                 We are hiring, Apply today
               </span>
               <ArrowUpRight className="h-3.5 w-3.5 flex-shrink-0 text-[#ea5e28] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 md:h-5 md:w-5" />
             </button>
+
           </motion.div>
 
           <motion.h1
@@ -100,21 +106,32 @@ export default function HomePage() {
             {...fadeUp}
             transition={{ duration: 0.7, delay: 0.75, ease: "easeOut" }}
           >
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-3 sm:gap-4">
               <button
                 onClick={() => navigate("/about")}
-                className="group inline-flex items-center gap-2 rounded-full bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors px-4 py-2 text-xs font-semibold text-black md:gap-3 md:px-7 md:py-3.5 md:text-sm"
+                className="group inline-flex items-center gap-2 rounded-full bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors px-4 py-2 text-xs font-semibold text-black md:gap-3 md:px-7 md:py-3.5 md:text-sm cursor-pointer"
               >
                 Who are we?
               </button>
               <button
-                onClick={scrollToEvents}
-                className="group inline-flex items-center gap-2 rounded-full border border-neutral-700 hover:border-[#ea5e28] hover:text-[#ea5e28] transition-colors px-4 py-2 text-xs text-white md:gap-3 md:px-7 md:py-3.5 md:text-sm"
+                onClick={() => {
+                  navigate("/villagehacks25");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="group inline-flex items-center gap-2 rounded-full border border-[#ea5e28]/60 bg-[#ea5e28]/10 hover:bg-[#ea5e28] hover:text-black transition-colors px-4 py-2 text-xs font-semibold text-[#ea5e28] md:gap-3 md:px-7 md:py-3.5 md:text-sm cursor-pointer shadow-lg shadow-[#ea5e28]/10"
               >
-                Upcoming Events
+                <Zap className="h-3.5 w-3.5" />
+                VillageHacks '25
                 <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1 md:h-4 md:w-4" />
               </button>
+              <button
+                onClick={scrollToEvents}
+                className="group inline-flex items-center gap-2 rounded-full border border-neutral-700 hover:border-[#ea5e28] hover:text-[#ea5e28] transition-colors px-4 py-2 text-xs text-white md:gap-3 md:px-7 md:py-3.5 md:text-sm cursor-pointer"
+              >
+                Upcoming Events
+              </button>
             </div>
+
           </motion.div>
         </div>
       </section>
@@ -295,6 +312,10 @@ export default function HomePage() {
           </div>
         )}
       </section>
+
+      {/* OUR PARTNERS SECTION */}
+      <PartnersCarousel />
     </>
   );
 }
+

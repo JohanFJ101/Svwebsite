@@ -6,6 +6,7 @@ import {
   MapPin,
   Users,
   Zap,
+  Sparkles,
 } from "lucide-react";
 import { useNavigate } from "react-router";
 import { motion, AnimatePresence } from "motion/react";
@@ -36,11 +37,11 @@ export default function HackathonPage() {
   return (
     <>
       {/* HERO */}
-      <section className="relative pt-36 pb-20 md:pt-44 md:pb-28 px-6 md:px-10 lg:px-14">
+      <section className="relative pt-36 pb-16 md:pt-44 md:pb-24 px-6 md:px-10 lg:px-14">
         <div className="mx-auto max-w-7xl">
           <motion.button
             onClick={() => navigate("/")}
-            className="group inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors text-sm mb-10"
+            className="group inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors text-sm mb-8"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -128,27 +129,43 @@ export default function HackathonPage() {
             </motion.div>
           )}
 
-          {/* Action button for archive placeholder */}
-          {schedule.length === 0 && (
-            <motion.div
-              className="mt-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
+          {/* Dedicated VillageHacks '25 Card Banner */}
+          <motion.div
+            className="mt-12 rounded-3xl border border-[#ea5e28]/40 bg-gradient-to-r from-neutral-950 via-neutral-900 to-neutral-950 p-8 md:p-10"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.7 }}
+          >
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-[#ea5e28]/30 bg-[#ea5e28]/15 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#ea5e28] mb-3">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Past Flagship Event
+                </div>
+                <h3 className="text-2xl md:text-3xl font-bold uppercase text-white" style={headingFont}>
+                  VillageHacks '25
+                </h3>
+                <p className="text-neutral-400 text-sm mt-2 max-w-xl">
+                  334+ builders attended. 24 hours at ASU Murdock Hall. $20K+ in prizes, paid roles, and direct VC pitch sessions.
+                </p>
+              </div>
+
               <button
-                onClick={() => setShowArchiveAlert(true)}
-                className="group inline-flex items-center gap-2 text-sm text-neutral-500 hover:text-white transition-colors cursor-pointer"
+                onClick={() => {
+                  navigate("/villagehacks25");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors px-6 py-3 text-sm text-black font-semibold shrink-0 cursor-pointer"
               >
-                <span>Looking for past builds? View previous hackathons</span>
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1 text-[#ea5e28]" />
+                <span>View VillageHacks '25 Page</span>
+                <ArrowRight className="h-4 w-4" />
               </button>
-            </motion.div>
-          )}
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* SCHEDULE */}
+      {/* SCHEDULE IF PRESENT IN CMS */}
       {schedule.length > 0 && (
         <section className="relative mx-auto max-w-7xl px-6 md:px-10 lg:px-14 pb-32 pt-4">
           <div className="max-w-3xl">
@@ -193,7 +210,6 @@ export default function HackathonPage() {
                       {item.desc}
                     </p>
                   </div>
-                  {/* Timeline dot */}
                   <div className="absolute left-[102px] top-8 w-2 h-2 rounded-full bg-neutral-700 group-hover:bg-[#ea5e28] transition-colors" />
                 </motion.div>
               ))}

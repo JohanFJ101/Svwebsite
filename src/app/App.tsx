@@ -1,4 +1,4 @@
-import { ArrowUpRight, Zap, Calendar, Image, Users, Info, Menu, X } from "lucide-react";
+import { ArrowUpRight, Zap, Calendar, Image, Users, Info, Menu, X, Radio } from "lucide-react";
 import { useState } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router";
 import { BackgroundContours } from "./components/BackgroundContours";
@@ -9,7 +9,10 @@ import AboutPage from "./pages/AboutPage";
 import HackathonPage from "./pages/HackathonPage";
 import OfficersPage from "./pages/OfficersPage";
 import GalleryPage from "./pages/GalleryPage";
+import PodcastPage from "./pages/PodcastPage";
+import VillageHacks25Page from "./pages/VillageHacks25Page";
 import AdminPage from "./pages/AdminPage";
+
 
 const bodyFont = { fontFamily: "'Inter', sans-serif" };
 
@@ -36,11 +39,14 @@ export default function App() {
     } else if (label === "About") {
       navigate("/about");
       window.scrollTo({ top: 0, behavior: "smooth" });
-    } else if (label === "Officers") {
+    } else if (label === "Officers" || label === "Our Team") {
       navigate("/officers");
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else if (label === "Gallery") {
       navigate("/gallery");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (label === "Podcast") {
+      navigate("/podcast");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
@@ -74,7 +80,8 @@ export default function App() {
               {[
                 { label: "Events", icon: Calendar },
                 { label: "Gallery", icon: Image },
-                { label: "Officers", icon: Users },
+                { label: "Podcast", icon: Radio },
+                { label: "Our Team", icon: Users },
                 { label: "About", icon: Info },
               ].map(({ label, icon: Icon }) => (
                 <li
@@ -129,7 +136,8 @@ export default function App() {
               {[
                 { label: "Events", icon: Calendar },
                 { label: "Gallery", icon: Image },
-                { label: "Officers", icon: Users },
+                { label: "Podcast", icon: Radio },
+                { label: "Our Team", icon: Users },
                 { label: "About", icon: Info },
               ].map(({ label, icon: Icon }) => (
                 <button
@@ -157,9 +165,12 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/hackathon" element={<HackathonPage />} />
+          <Route path="/villagehacks25" element={<VillageHacks25Page />} />
           <Route path="/officers" element={<OfficersPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/podcast" element={<PodcastPage />} />
           <Route path="/admin" element={<AdminPage />} />
+
         </Routes>
 
         {/* FOOTER */}

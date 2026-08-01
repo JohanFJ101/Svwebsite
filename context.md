@@ -74,21 +74,28 @@ There is no `tsc` / test runner installed. Verify changes by running the app.
 │   │   │   ├── ContentContext.tsx     # ContentProvider + useContent(); fetches /api/content
 │   │   │   └── auth.ts         #   FE auth client: verifyCredentials/isAuthed/logoutAdmin (fetch /api/auth/*)
 │   │   ├── pages/
-│   │   │   ├── HomePage.tsx    #   Hero + events (events are CMS-driven via useContent)
-│   │   │   ├── HackathonPage.tsx #  VillageHacks page (CMS-driven via useContent)
-│   │   │   ├── OfficersPage.tsx#   Hardcoded officers grid (+ hidden admin entry lives in App footer)
-│   │   │   ├── GalleryPage.tsx #   Hardcoded gallery
+│   │   │   ├── HomePage.tsx    #   Hero (hiring button links to Google Form) + events + bottom Partners carousel
+│   │   │   ├── HackathonPage.tsx #  Main VillageHacks hub page
+│   │   │   ├── VillageHacks25Page.tsx # Dedicated VillageHacks '25 page (334 attendees highlight, "What was on the line", venue, sponsors)
+│   │   │   ├── OfficersPage.tsx#   Hardcoded team grid ("Our Team", + hidden admin entry lives in App footer)
+│   │   │   ├── GalleryPage.tsx #   Hardcoded gallery (shows curated VillageHacks photos 1, 7, 8, 9)
+│   │   │   ├── PodcastPage.tsx #   STFU Podcast page (logo, intro, tagline, speaker/viewer waitlists)
 │   │   │   ├── AboutPage.tsx   #   Hardcoded about
 │   │   │   └── AdminPage.tsx   #   The CMS editor (auth-guarded). Fetches /api/admin/content
 │   │   └── components/
 │   │       ├── LoginModal.tsx  #   Admin login dialog (opened from footer © on /officers)
+│   │       ├── PartnersCarousel.tsx # Slowly moving horizontal carousel for PNG partner logos
 │   │       ├── Logo.tsx, BackgroundContours.tsx, StarDestroyer.tsx  # bespoke visuals
 │   │       ├── figma/ImageWithFallback.tsx
 │   │       └── ui/             #   shadcn/ui primitives (large set; mostly unused by custom pages)
 │   ├── imports/                 # Image/SVG assets (hero PNGs, logo, star destroyer)
-│   │   └── gallery/villagehacks-26/
-│   │       ├── thumbs/           #   small JPEG grid thumbnails for GalleryPage
-│   │       └── full/             #   capped JPEG lightbox images for GalleryPage
+│   │   └── gallery/
+│   │       ├── Our Partners Carosel/ # PNG partner logos for PartnersCarousel
+│   │       ├── Podcast/          # STFU Podcast logo (STFULOGO.png)
+│   │       └── villagehacks-26/
+│   │           ├── thumbs/           #   small JPEG grid thumbnails for GalleryPage
+│   │           └── full/             #   capped JPEG lightbox images for GalleryPage
+
 │   └── styles/                  # index.css imports fonts.css + tailwind.css + theme.css
 │
 ├── photos/                       # Original source photos; not imported directly by the app
