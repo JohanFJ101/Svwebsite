@@ -185,19 +185,25 @@ export default function App() {
             <div className="flex items-center gap-8">
               <a
                 className="hover:text-[#ea5e28] transition-colors"
-                href="#"
+                href="https://www.instagram.com/startupvillage.asu/"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Instagram
               </a>
               <a
                 className="hover:text-[#ea5e28] transition-colors"
-                href="#"
+                href="https://x.com/StartupVillageW"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Twitter
+                X
               </a>
               <a
                 className="hover:text-[#ea5e28] transition-colors"
-                href="#"
+                href="https://www.linkedin.com/company/startup-village-asu/posts/?feedView=all"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 LinkedIn
               </a>
