@@ -1,4 +1,3 @@
-import { Handshake } from "lucide-react";
 import { motion } from "motion/react";
 
 const headingFont = {
@@ -50,28 +49,26 @@ export function PartnersCarousel() {
 
   return (
     <section className="relative w-full py-5 md:py-8 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-6 md:px-10 lg:px-14 mb-3">
+      <div className="mx-auto max-w-7xl px-6 md:px-10 lg:px-14 mb-6">
         <motion.div
-          className="flex items-center gap-2"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <Handshake className="h-4 w-4 text-[#ea5e28]" />
-          <h3
-            className="text-base md:text-lg uppercase tracking-wider font-semibold text-neutral-200"
+          <h2
+            className="text-[clamp(32px,4vw,56px)] uppercase leading-none font-bold text-white tracking-wide"
             style={headingFont}
           >
             <span className="text-[#ea5e28]" style={{ fontStyle: "italic" }}>
-              O
+              I
             </span>
-            ur{" "}
+            ndustry{" "}
             <span className="text-[#ea5e28]" style={{ fontStyle: "italic" }}>
               P
             </span>
             artners
-          </h3>
+          </h2>
         </motion.div>
       </div>
 

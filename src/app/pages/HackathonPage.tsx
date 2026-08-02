@@ -129,7 +129,7 @@ export default function HackathonPage() {
             </motion.div>
           )}
 
-          {/* Dedicated VillageHacks '25 Card Banner */}
+          {/* Dedicated VillageHacks '26 Card Banner */}
           <motion.div
             className="mt-12 rounded-3xl border border-[#ea5e28]/40 bg-gradient-to-r from-neutral-950 via-neutral-900 to-neutral-950 p-8 md:p-10"
             initial={{ opacity: 0, y: 30 }}
@@ -143,7 +143,7 @@ export default function HackathonPage() {
                   Past Flagship Event
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold uppercase text-white" style={headingFont}>
-                  VillageHacks '25
+                  VillageHacks '26
                 </h3>
                 <p className="text-neutral-400 text-sm mt-2 max-w-xl">
                   334+ builders attended. 24 hours at ASU Murdock Hall. $20K+ in prizes, paid roles, and direct VC pitch sessions.
@@ -152,12 +152,12 @@ export default function HackathonPage() {
 
               <button
                 onClick={() => {
-                  navigate("/villagehacks25");
+                  navigate("/villagehacks26");
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors px-6 py-3 text-sm text-black font-semibold shrink-0 cursor-pointer"
               >
-                <span>View VillageHacks '25 Page</span>
+                <span>View VillageHacks '26 Page</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>

@@ -115,13 +115,13 @@ export default function HomePage() {
               </button>
               <button
                 onClick={() => {
-                  navigate("/villagehacks25");
+                  navigate("/villagehacks26");
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
                 className="group inline-flex items-center gap-2 rounded-full border border-[#ea5e28]/60 bg-[#ea5e28]/10 hover:bg-[#ea5e28] hover:text-black transition-colors px-4 py-2 text-xs font-semibold text-[#ea5e28] md:gap-3 md:px-7 md:py-3.5 md:text-sm cursor-pointer shadow-lg shadow-[#ea5e28]/10"
               >
                 <Zap className="h-3.5 w-3.5" />
-                VillageHacks '25
+                VillageHacks '26
                 <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1 md:h-4 md:w-4" />
               </button>
               <button
@@ -135,6 +135,9 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
+
+      {/* INDUSTRY PARTNERS CAROUSEL */}
+      <PartnersCarousel />
 
       {/* UPCOMING EVENTS */}
       <section id="events" className="relative mx-auto max-w-7xl px-6 md:px-10 lg:px-14 pb-32 pt-16 md:pt-24">
@@ -196,17 +199,6 @@ export default function HomePage() {
                 >
                   Stay Tuned
                 </h3>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4 w-full justify-center pt-2">
-                <button
-                  onClick={() => {
-                    document.getElementById("footer")?.scrollIntoView({ behavior: "smooth" });
-                  }}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-700 bg-neutral-900/50 hover:bg-neutral-900 hover:border-neutral-500 transition-colors px-6 py-3 text-sm font-semibold text-white"
-                >
-                  Get Updates
-                </button>
               </div>
             </div>
           </motion.div>
@@ -312,9 +304,6 @@ export default function HomePage() {
           </div>
         )}
       </section>
-
-      {/* OUR PARTNERS SECTION */}
-      <PartnersCarousel />
     </>
   );
 }

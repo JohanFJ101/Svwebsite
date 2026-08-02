@@ -74,13 +74,14 @@ There is no `tsc` / test runner installed. Verify changes by running the app.
 │   │   │   ├── ContentContext.tsx     # ContentProvider + useContent(); fetches /api/content
 │   │   │   └── auth.ts         #   FE auth client: verifyCredentials/isAuthed/logoutAdmin (fetch /api/auth/*)
 │   │   ├── pages/
-│   │   │   ├── HomePage.tsx    #   Hero (hiring button links to Google Form) + events + bottom Partners carousel
+│   │   │   ├── HomePage.tsx    #   Hero (hiring button links to Google Form) + Industry Partners carousel + Upcoming events
 │   │   │   ├── HackathonPage.tsx #  Main VillageHacks hub page
-│   │   │   ├── VillageHacks25Page.tsx # Dedicated VillageHacks '25 page (334 attendees highlight, "What was on the line", venue, sponsors)
+│   │   │   ├── VillageHacks25Page.tsx # Dedicated VillageHacks '26 page (334 attendees highlight, "What was on the line", venue, sponsors)
 │   │   │   ├── OfficersPage.tsx#   Hardcoded team grid ("Our Team", + hidden admin entry lives in App footer)
 │   │   │   ├── GalleryPage.tsx #   Hardcoded gallery (shows curated VillageHacks photos 1, 7, 8, 9)
 │   │   │   ├── PodcastPage.tsx #   STFU Podcast page (logo, intro, tagline, speaker/viewer waitlists)
 │   │   │   ├── AboutPage.tsx   #   Hardcoded about
+│   │   │   ├── ContactPage.tsx #   Contact page (Email startupvillage.asu@gmail.com + Instagram DM link)
 │   │   │   └── AdminPage.tsx   #   The CMS editor (auth-guarded). Fetches /api/admin/content
 │   │   └── components/
 │   │       ├── LoginModal.tsx  #   Admin login dialog (opened from footer © on /officers)

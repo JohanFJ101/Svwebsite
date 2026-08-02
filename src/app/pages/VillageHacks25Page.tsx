@@ -1,4 +1,4 @@
-import { ArrowRight, MapPin, Users, Zap, ShieldCheck, Briefcase, Building2, Sparkles, Trophy } from "lucide-react";
+import { ArrowRight, MapPin, Users, Zap, ShieldCheck, Briefcase, Building2, Trophy } from "lucide-react";
 import { useNavigate } from "react-router";
 import { motion } from "motion/react";
 
@@ -59,7 +59,7 @@ export default function VillageHacks25Page() {
           >
             <span className="inline-flex items-center gap-1.5 rounded-full bg-[#ea5e28]/10 border border-[#ea5e28]/25 px-4 py-1.5 text-xs font-semibold text-[#ea5e28] uppercase tracking-wider">
               <Zap className="h-3.5 w-3.5" />
-              VillageHacks '25
+              VillageHacks '26
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-900 border border-neutral-800 px-4 py-1.5 text-xs font-medium text-neutral-300">
               <MapPin className="h-3.5 w-3.5 text-[#ea5e28]" />
@@ -81,7 +81,7 @@ export default function VillageHacks25Page() {
             <span className="text-[#ea5e28]" style={{ fontStyle: "italic" }}>
               H
             </span>
-            acks '25
+            acks '26
           </motion.h1>
 
           <motion.p
@@ -99,7 +99,7 @@ export default function VillageHacks25Page() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
           >
-            VillageHacks returns to ASU with 600+ builders and one rule: <strong className="text-white">ship something that works</strong>.
+            VillageHacks returns to ASU with 300+ builders and one rule: <strong className="text-white">ship something that works</strong>.
           </motion.p>
         </div>
       </section>
@@ -116,10 +116,6 @@ export default function VillageHacks25Page() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#ea5e28]/10 blur-[100px] pointer-events-none rounded-full" />
 
           <div className="relative z-10">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#ea5e28]/30 bg-[#ea5e28]/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#ea5e28] mb-4">
-              <Sparkles className="h-3.5 w-3.5" />
-              Main Highlight
-            </div>
             
             <div className="text-[clamp(64px,10vw,120px)] font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-white via-neutral-100 to-[#ea5e28] font-mono leading-none tracking-tight">
               334

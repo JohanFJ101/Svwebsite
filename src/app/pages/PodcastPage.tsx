@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, Mic, Users, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router";
 import { motion, AnimatePresence } from "motion/react";
 import stfuLogo from "../../imports/gallery/Podcast/STFULOGO.png";
@@ -15,8 +15,10 @@ export default function PodcastPage() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const handleWaitlistClick = (type: "Speakers" | "Viewers") => {
-    setToastMessage(`Waitlist form for ${type} is coming soon!`);
-    setTimeout(() => setToastMessage(null), 3500);
+    const url = type === "Speakers"
+      ? "https://forms.gle/KWwUgHMEYqDdc4c68"
+      : "https://forms.gle/L7E5oTHkFiptkaV77";
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -74,7 +76,7 @@ export default function PodcastPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.45, ease: "easeOut" }}
           >
-            <strong className="text-[#ea5e28]">STFU</strong> is a conversational podcast by <strong className="text-white">Startup Village</strong> where entrepreneurs sit down with our hosts to have a candid conversation about their work, experiences and journey.
+            On <strong className="text-[#ea5e28]">STFU</strong> by <strong className="text-white">Startup Village</strong>, founders drop the corporate soundbites for candid, conversational deep-dives into the real work, decisions, and lessons behind building a company.
           </motion.p>
 
 
@@ -90,10 +92,6 @@ export default function PodcastPage() {
             {/* Speakers Waitlist (Left Side) */}
             <div className="relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/60 p-6 sm:p-8 flex flex-col justify-between backdrop-blur-md group hover:border-[#ea5e28]/50 transition-all duration-300">
               <div className="mb-6">
-                <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#ea5e28] mb-2">
-                  <Mic className="h-4 w-4" />
-                  For Speakers
-                </div>
                 <h3
                   className="text-xl sm:text-2xl uppercase text-white mb-2"
                   style={headingFont}
@@ -116,10 +114,6 @@ export default function PodcastPage() {
             {/* Viewers Waitlist (Right Side) */}
             <div className="relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/60 p-6 sm:p-8 flex flex-col justify-between backdrop-blur-md group hover:border-[#ea5e28]/50 transition-all duration-300">
               <div className="mb-6">
-                <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#ea5e28] mb-2">
-                  <Users className="h-4 w-4" />
-                  For Viewers
-                </div>
                 <h3
                   className="text-xl sm:text-2xl uppercase text-white mb-2"
                   style={headingFont}

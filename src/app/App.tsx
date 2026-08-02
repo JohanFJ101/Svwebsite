@@ -11,6 +11,7 @@ import OfficersPage from "./pages/OfficersPage";
 import GalleryPage from "./pages/GalleryPage";
 import PodcastPage from "./pages/PodcastPage";
 import VillageHacks25Page from "./pages/VillageHacks25Page";
+import ContactPage from "./pages/ContactPage";
 import AdminPage from "./pages/AdminPage";
 
 
@@ -104,7 +105,10 @@ export default function App() {
                 <Zap className="h-4 w-4" />
                 VillageHacks
               </button>
-              <button className="group flex items-center gap-2 rounded-full bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors px-5 py-2.5 text-sm text-black">
+              <button
+                onClick={() => { navigate("/contact"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                className="group flex items-center gap-2 rounded-full bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors px-5 py-2.5 text-sm text-black cursor-pointer font-semibold"
+              >
                 Contact us
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </button>
@@ -151,7 +155,10 @@ export default function App() {
               ))}
 
               <div className="flex flex-col gap-3 mt-3">
-                <button className="flex items-center justify-center gap-2 rounded-full bg-[#ea5e28] transition-colors px-5 py-3 text-sm text-black font-semibold">
+                <button
+                  onClick={() => { navigate("/contact"); window.scrollTo({ top: 0, behavior: "smooth" }); setMobileMenuOpen(false); }}
+                  className="flex items-center justify-center gap-2 rounded-full bg-[#ea5e28] transition-colors px-5 py-3 text-sm text-black font-semibold cursor-pointer"
+                >
                   Contact us
                   <ArrowUpRight className="h-4 w-4" />
                 </button>
@@ -166,9 +173,11 @@ export default function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/hackathon" element={<HackathonPage />} />
           <Route path="/villagehacks25" element={<VillageHacks25Page />} />
+          <Route path="/villagehacks26" element={<VillageHacks25Page />} />
           <Route path="/officers" element={<OfficersPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/podcast" element={<PodcastPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="/admin" element={<AdminPage />} />
 
         </Routes>

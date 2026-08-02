@@ -157,7 +157,16 @@ export default function AboutPage() {
               here.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <button className="group inline-flex items-center gap-2 rounded-full bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors px-8 py-4 text-sm text-black font-semibold">
+              <button
+                onClick={() =>
+                  window.open(
+                    "https://forms.gle/5JEZYTucaWQgXsiV8",
+                    "_blank",
+                    "noopener,noreferrer"
+                  )
+                }
+                className="group inline-flex items-center gap-2 rounded-full bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors px-8 py-4 text-sm text-black font-semibold cursor-pointer"
+              >
                 Apply Now
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </button>
