@@ -4,22 +4,8 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router";
 import { motion } from "motion/react";
-// Dynamically import all photos from Officer Photos folder
-const officerPhotoImports = import.meta.glob(
-  "../../imports/gallery/Officer Photos/*",
-  { eager: true, query: "?url", import: "default" }
-) as Record<string, string>;
-
-const getOfficerPhoto = (name: string): string | undefined => {
-  const firstName = name.split(" ")[0].toLowerCase();
-  for (const [path, url] of Object.entries(officerPhotoImports)) {
-    const filename = path.split("/").pop()?.toLowerCase() ?? "";
-    if (filename.includes(firstName) || (firstName === "yuvraaj" && filename.includes("yuvi"))) {
-      return url;
-    }
-  }
-  return undefined;
-};
+import yuuviPhoto from "../../imports/gallery/Officer Photos/YUVI.jpg";
+import johanPhoto from "../../imports/gallery/Officer Photos/johanj.jpeg";
 
 const headingFont = {
   fontFamily: "'Cormorant Garamond', Georgia, serif",
@@ -31,6 +17,7 @@ interface Officer {
   name: string;
   role: string;
   initials: string;
+  photo?: string;
   linkedin: string;
   gradient: string;
 }
@@ -40,6 +27,7 @@ const officers: Officer[] = [
     name: "Yuvraaj Jain",
     role: "President",
     initials: "YJ",
+    photo: yuuviPhoto,
     linkedin: "https://www.linkedin.com/in/yuuvraaj26e/",
     gradient: "from-[#ea5e28]/20 to-amber-500/10",
   },
@@ -47,6 +35,7 @@ const officers: Officer[] = [
     name: "Johan Jagalur",
     role: "VP of Tech",
     initials: "JJ",
+    photo: johanPhoto,
     linkedin: "https://www.linkedin.com/in/johan-jagalur-8907822b9/",
     gradient: "from-[#ea5e28]/15 to-rose-500/10",
   },
@@ -107,37 +96,35 @@ export default function OfficersPage() {
       {/* OFFICERS GRID */}
       <section className="relative mx-auto max-w-7xl px-6 md:px-10 lg:px-14 pb-32">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {officers.map((officer, i) => {
-            const photo = getOfficerPhoto(officer.name);
-            return (
-              <motion.div
-                key={officer.name}
-                className="group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/40 transition-all duration-500 hover:border-[#ea5e28]/40 hover:shadow-[0_0_50px_rgba(234,94,40,0.06)]"
-                style={{
-                  backdropFilter: "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
-                }}
-                initial={{ opacity: 0, y: 44 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.6, delay: i * 0.08, ease: "easeOut" }}
-              >
-                {/* Avatar area */}
-                <div className={`relative w-full aspect-[3/4] bg-gradient-to-br ${officer.gradient} flex items-center justify-center overflow-hidden`}>
-                  {photo ? (
-                    <img
-                      src={photo}
-                      alt={officer.name}
-                      className="absolute inset-0 w-full h-full object-cover object-top"
-                    />
-                  ) : (
-                    <span
-                      className="text-6xl text-white/20 group-hover:text-white/35 transition-colors duration-500 select-none"
-                      style={headingFont}
-                    >
-                      {officer.initials}
-                    </span>
-                  )}
+          {officers.map((officer, i) => (
+            <motion.div
+              key={officer.name}
+              className="group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/40 transition-all duration-500 hover:border-[#ea5e28]/40 hover:shadow-[0_0_50px_rgba(234,94,40,0.06)]"
+              style={{
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+              }}
+              initial={{ opacity: 0, y: 44 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.6, delay: i * 0.08, ease: "easeOut" }}
+            >
+              {/* Avatar area */}
+              <div className={`relative w-full aspect-[ /2] bg-gradient-to-br ${officer.gradient} flex items-center justify-center overflow-hidden`}>
+                {"photo" in officer && officer.photo ? (
+                  <img
+                    src={officer.photo}
+                    alt={officer.name}
+                    className="absolute inset-0 w-full h-full object-cover object-top"
+                  />
+                ) : (
+                  <span
+                    className="text-6xl text-white/20 group-hover:text-white/35 transition-colors duration-500 select-none"
+                    style={headingFont}
+                  >
+                    {officer.initials}
+                  </span>
+                )}
                 {/* Ambient glow */}
                 <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 h-16 w-32 rounded-full bg-[#ea5e28]/10 blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
@@ -171,8 +158,7 @@ export default function OfficersPage() {
                 </div>
               </div>
             </motion.div>
-            );
-          })}
+          ))}
         </div>
       </section>
     </>
