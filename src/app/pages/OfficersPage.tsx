@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { motion } from "motion/react";
 import yuuviPhoto from "../../imports/gallery/Officer Photos/YUVI.jpg";
 import johanPhoto from "../../imports/gallery/Officer Photos/johanj.jpeg";
+import jeetPhoto from "../../imports/gallery/Officer Photos/JeetRupani.jpeg";
 
 const headingFont = {
   fontFamily: "'Cormorant Garamond', Georgia, serif",
@@ -43,6 +44,7 @@ const officers: Officer[] = [
     name: "Jeet Rupani",
     role: "VP of Outreach",
     initials: "JR",
+    photo: jeetPhoto,
     linkedin: "https://www.linkedin.com/in/jeet-rupani-a16b92315/",
     gradient: "from-purple-500/15 to-[#ea5e28]/10",
   },
@@ -110,8 +112,8 @@ export default function OfficersPage() {
               transition={{ duration: 0.6, delay: i * 0.08, ease: "easeOut" }}
             >
               {/* Avatar area */}
-              <div className={`relative w-full aspect-[ /2] bg-gradient-to-br ${officer.gradient} flex items-center justify-center overflow-hidden`}>
-                {"photo" in officer && officer.photo ? (
+              <div className={`relative w-full aspect-[3/4] bg-gradient-to-br ${officer.gradient} flex items-center justify-center overflow-hidden`}>
+                {officer.photo ? (
                   <img
                     src={officer.photo}
                     alt={officer.name}

@@ -91,6 +91,7 @@ There is no `tsc` / test runner installed. Verify changes by running the app.
 │   │       └── ui/             #   shadcn/ui primitives (large set; mostly unused by custom pages)
 │   ├── imports/                 # Image/SVG assets (hero PNGs, logo, star destroyer)
 │   │   └── gallery/
+│   │       ├── Officer Photos/  # Team portraits imported explicitly by OfficersPage
 │   │       ├── Our Partners Carosel/ # PNG partner logos for PartnersCarousel
 │   │       ├── Podcast/          # STFU Podcast logo (STFULOGO.png)
 │   │       └── villagehacks-26/
