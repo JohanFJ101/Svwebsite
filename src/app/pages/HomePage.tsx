@@ -73,7 +73,7 @@ export default function HomePage() {
             transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
           >
             <button
-              onClick={() => window.open("https://forms.gle/5JEZYTucaWQgXsiV8", "_blank", "noopener,noreferrer")}
+              onClick={() => window.open("https://forms.gle/f7QXDXfyKR3A1rky7", "_blank", "noopener,noreferrer")}
               className="group inline-flex items-center justify-between gap-3 rounded-full border border-[#ea5e28]/40 bg-[#ea5e28]/10 px-4 py-2 text-white transition-colors hover:border-[#ea5e28] hover:bg-[#ea5e28]/20 md:gap-4 md:px-7 md:py-4 cursor-pointer"
             >
               <span className="text-xs font-semibold tracking-wide md:text-base">

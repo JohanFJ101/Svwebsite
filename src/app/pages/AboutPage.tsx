@@ -160,7 +160,7 @@ export default function AboutPage() {
               <button
                 onClick={() =>
                   window.open(
-                    "https://forms.gle/5JEZYTucaWQgXsiV8",
+                    "https://forms.gle/f7QXDXfyKR3A1rky7",
                     "_blank",
                     "noopener,noreferrer"
                   )
