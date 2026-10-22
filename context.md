@@ -27,6 +27,10 @@ export; a lightweight backend was added so admin edits persist for all visitors.
 ### Two kinds of content
 - **CMS-driven (editable in `/admin`):** Home page **events** + the **VillageHacks**
   (hackathon) page details. Served from the backend.
+  Default events include **The Inner Circle**, with October 28 logistics and a
+  `/innercircle` detail-page CTA. Saved CMS events still take precedence over
+  defaults. Home event CTAs use same-tab routing for root-relative paths and
+  open external URLs in a new tab.
 - **Hardcoded (edit the page file directly):** **Officers**, **Gallery**, **About**
   pages, **STFU Podcast**, **Inner Circle**, the nav, and the footer. These are NOT in the CMS. The Gallery page
   currently renders a **VillageHacks '26** photo section from optimized image

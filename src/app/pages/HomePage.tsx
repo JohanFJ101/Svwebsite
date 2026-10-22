@@ -290,7 +290,12 @@ export default function HomePage() {
                     </div>
                     <button
                       onClick={() => {
-                        if (event.ctaUrl) window.open(event.ctaUrl, "_blank", "noopener,noreferrer");
+                        if (event.ctaUrl.startsWith("/") && !event.ctaUrl.startsWith("//")) {
+                          navigate(event.ctaUrl);
+                          window.scrollTo({ top: 0, behavior: "smooth" });
+                        } else if (event.ctaUrl) {
+                          window.open(event.ctaUrl, "_blank", "noopener,noreferrer");
+                        }
                       }}
                       className="group w-full flex items-center justify-center gap-2 rounded-xl bg-[#ea5e28] hover:bg-[#ff6a30] transition-colors py-4 text-sm font-semibold text-black"
                     >
