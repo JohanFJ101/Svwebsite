@@ -10,6 +10,7 @@ import HackathonPage from "./pages/HackathonPage";
 import OfficersPage from "./pages/OfficersPage";
 import GalleryPage from "./pages/GalleryPage";
 import PodcastPage from "./pages/PodcastPage";
+import InnerCirclePage from "./pages/InnerCirclePage";
 import VillageHacks25Page from "./pages/VillageHacks25Page";
 import ContactPage from "./pages/ContactPage";
 import AdminPage from "./pages/AdminPage";
@@ -177,6 +178,7 @@ export default function App() {
           <Route path="/officers" element={<OfficersPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/podcast" element={<PodcastPage />} />
+          <Route path="/innercircle" element={<InnerCirclePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/admin" element={<AdminPage />} />
 

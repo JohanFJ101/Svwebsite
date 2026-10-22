@@ -28,7 +28,7 @@ export; a lightweight backend was added so admin edits persist for all visitors.
 - **CMS-driven (editable in `/admin`):** Home page **events** + the **VillageHacks**
   (hackathon) page details. Served from the backend.
 - **Hardcoded (edit the page file directly):** **Officers**, **Gallery**, **About**
-  pages, the nav, and the footer. These are NOT in the CMS. The Gallery page
+  pages, **STFU Podcast**, **Inner Circle**, the nav, and the footer. These are NOT in the CMS. The Gallery page
   currently renders a **VillageHacks '26** photo section from optimized image
   derivatives in `src/imports/gallery/villagehacks-26/`.
 
@@ -80,6 +80,7 @@ There is no `tsc` / test runner installed. Verify changes by running the app.
 │   │   │   ├── OfficersPage.tsx#   Hardcoded team grid ("Our Team", + hidden admin entry lives in App footer)
 │   │   │   ├── GalleryPage.tsx #   Hardcoded gallery (shows curated VillageHacks photos 1, 7, 8, 9)
 │   │   │   ├── PodcastPage.tsx #   STFU Podcast page (logo, intro, tagline, speaker/viewer waitlists)
+│   │   │   ├── InnerCirclePage.tsx # Inner Circle event: intro, 8 industries, discussion prompts, benefits, details + agenda
 │   │   │   ├── AboutPage.tsx   #   Hardcoded about + Apply Now CTA (shared hiring form)
 │   │   │   ├── ContactPage.tsx #   Contact page (Email startupvillage.asu@gmail.com + Instagram DM link)
 │   │   │   └── AdminPage.tsx   #   The CMS editor (auth-guarded). Fetches /api/admin/content
@@ -90,6 +91,7 @@ There is no `tsc` / test runner installed. Verify changes by running the app.
 │   │       ├── figma/ImageWithFallback.tsx
 │   │       └── ui/             #   shadcn/ui primitives (large set; mostly unused by custom pages)
 │   ├── imports/                 # Image/SVG assets (hero PNGs, logo, star destroyer)
+│   │   ├── innercircle/Logo.png # Inner Circle event logo, derived from photos/INNERCIRCLE PHOTO/Logo.png
 │   │   └── gallery/
 │   │       ├── Officer Photos/  # Team portraits imported explicitly by OfficersPage
 │   │       ├── Our Partners Carosel/ # PNG partner logos for PartnersCarousel
@@ -176,9 +178,16 @@ client-only version.**
 ## 6. Routing
 
 - Client routes are declared in `App.tsx` `<Routes>`: `/`, `/about`, `/hackathon`,
-  `/officers`, `/gallery`, `/admin`.
+  `/villagehacks25`, `/villagehacks26`, `/officers`, `/gallery`, `/podcast`,
+  `/innercircle`, `/contact`, `/admin`.
 - For production deep links to work, each non-root route is rewritten to
   `/index.html` in **`vercel.json`**. **If you add a route, add a rewrite there.**
+- `/innercircle` uses the STFU Podcast page's visual style and the shared shell.
+  Event copy comes from the supplied promotional artwork. Updated logistics:
+  Wednesday, October 28, 3:00 PM–6:00 PM, GLCC B 208 Ballroom, GLV, Tempe.
+  The artwork does not specify a year or time zone. Registration remains coming
+  soon; edit `InnerCirclePage.tsx` when confirmed. Do not invent a signup URL
+  or individual agenda times.
 
 ---
 
